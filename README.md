@@ -12,8 +12,8 @@ python src/hex_plot.py \
     --out img/stix_lr_vs_1kg_pop_freq.png \
     --height 4 \
     --width 5 \
-    --xlabel "Num. samples call non-ref by 1KG" \
-    --ylabel "Num. of sames with STIX depth > 5" \
+    --xlabel "Num. samples called non-ref by 1KG" \
+    --ylabel "Num. of samples with STIX long-read depth > 5" \
     --title "1KG germline SVs"
 r = 0.80, p=0.00e+00
 ```
