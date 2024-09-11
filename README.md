@@ -22,6 +22,6 @@ cat data.data/lr_te_pop_freq_t_5.bed \
     --xlabel "Pop Freq."\
     --ylabel "Freq."
 ```
-<Figure>
-![lr_te_freq](img/lr_te_pop_freq_t_5.hist.png)
-</Figure>
+
+![](img/lr_te_pop_freq_t_5.hist.png)
+
