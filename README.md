@@ -19,8 +19,8 @@ python src/get_pop_freq.py \
     --lr data/02.3.MosiacTEs.unique.query.final_intersected.slop100.results \
 > data/lr_te_pop_freq_t_5.bed
 
-cat data.data/lr_te_pop_freq_t_5.bed \
-| cut -f 4 \
+cat data/lr_te_pop_freq_t_5.bed \
+| cut -f 5 \
 | python src/hist.py \
     --out_file img/lr_te_pop_freq_t_5.hist.png \
     --log \
@@ -34,11 +34,11 @@ cat data.data/lr_te_pop_freq_t_5.bed \
 ```
 python src/get_pop_freq.py \
     --t 5 \
-    --lr "data/LR_STIX_1kg_queries/04.3.SR_all.slop100.tmp*.results
+    --lr "data/LR_STIX_1kg_queries/04.3.SR_all.slop100.tmp*.results" \
 > data/lr_1kg_pop_freq_t_5.bed
 
 cat data/lr_1kg_pop_freq_t_5.bed \
-| cut -f 4 \
+| cut -f 5 \
 | python src/hist.py \
     --out_file img/lr_1kg_pop_freq_t_5.hist.png \
     --log \
@@ -56,7 +56,7 @@ python src/get_pop_freq.py \
     --t 5 > data/sr_te_pop_freq_t_5.bed
 
 cat data/sr_te_pop_freq_t_5.bed \
-| cut -f 4 \
+| cut -f 5 \
 | python src/hist.py \
     --out_file img/sr_te_pop_freq_t_5.hist.png \
     --log \
@@ -72,12 +72,12 @@ bcftools view \
     --force-samples \
     -S data/lr_1kg_samples.txt data/1KGP_3202.gatksv_svtools_novelins.freeze_V3.wAF.vcf.gz  \
 | bcftools query \
-    -f "%CHROM\t%POS\t%INFO/END\t[%GT\t]\n" \
+    -f "%CHROM\t%POS\t%INFO/END\t%INFO/SVTYPE\t[%GT\t]\n" \
 | python src/count_non_refs.py \
 > data/1kg_pop_freq.lr_samples.bed
 
-cat data/1kg_pop_freq.lr_samples.bed
-| cut -f 4 \
+cat data/1kg_pop_freq.lr_samples.bed \
+| cut -f 5 \
 | python src/hist.py \
     --out_file img/1kg_pop_freq.lr_samples.hist.png \
     --log \

@@ -22,7 +22,8 @@ def parse_lr_file(lr_file, LR, t):
                 rchr,rpos = r.split(':')
                 lstart,lend= lpos.split('-')
                 rstart,rend= rpos.split('-')
-                sv = (lchr,lstart,rstart)
+                sv_type = line.rstrip().split()[3]
+                sv = (lchr,lstart,rstart,sv_type)
                 if sv not in LR:
                     LR[sv] = 0
                 depth = 0
@@ -38,7 +39,7 @@ def parse_sr_file(sr_file, SR, t):
     with open(sr_file, 'r') as f:
         for line in f:
             A = line.rstrip().split()
-            sv = (A[0], A[1], A[2])
+            sv = (A[0], A[1], A[2], A[3])
 
             if sv not in SR:
                 SR[sv] = 0
@@ -54,20 +55,17 @@ def parse_sr_file(sr_file, SR, t):
 def main():
     args = parse_args()
 
+    SV = {}
+
     if args.lr is not None:
-        LR = {}
         for file in glob.glob(args.lr):
-            LR = parse_lr_file(file, LR, args.t)
-
-        for sv in LR:
-            print('\t'.join(list(sv) + [str(LR[sv])]))
+            SV = parse_lr_file(file, SV, args.t)
     elif args.sr is not None:
-        SR = {}
         for file in glob.glob(args.sr):
-            SR = parse_sr_file(file, SR, args.t)
+            SV = parse_sr_file(file, SV, args.t)
 
-        for sv in SR:
-            print('\t'.join(list(sv) + [str(SR[sv])]))
+    for sv in SV:
+        print('\t'.join(list(sv) + [str(SV[sv])]))
 
 if __name__ == '__main__':
     main()
