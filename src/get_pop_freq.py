@@ -10,9 +10,11 @@ def parse_args():
                         help='Depth threshold (default = 1)',
                         default=1,
                         required=True)
+    parser.add_argument('--adj', action='store_true', help="Adjust start end by 10bp")
+
     return parser.parse_args()
 
-def parse_lr_file(lr_file, LR, t):
+def parse_lr_file(lr_file, LR, t, adj):
     with open(lr_file, 'r') as f:
         sv = None
         for line in f:
@@ -23,7 +25,11 @@ def parse_lr_file(lr_file, LR, t):
                 lstart,lend= lpos.split('-')
                 rstart,rend= rpos.split('-')
                 sv_type = line.rstrip().split()[3]
-                sv = (lchr,lstart,rstart,sv_type)
+                sv = None
+                if adj:
+                    sv = (lchr,str(int(lstart)+10),str(int(rstart)+10),sv_type)
+                else:
+                    sv = (lchr,lstart,rstart,sv_type)
                 if sv not in LR:
                     LR[sv] = 0
                 depth = 0
@@ -59,7 +65,7 @@ def main():
 
     if args.lr is not None:
         for file in glob.glob(args.lr):
-            SV = parse_lr_file(file, SV, args.t)
+            SV = parse_lr_file(file, SV, args.t, args.adj)
     elif args.sr is not None:
         for file in glob.glob(args.sr):
             SV = parse_sr_file(file, SV, args.t)

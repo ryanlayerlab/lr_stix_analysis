@@ -4,6 +4,21 @@
 
 ## Figures
 
+### 1KG SV frequency
+```
+python src/hex_plot.py \
+    --stix data/lr_1kg_pop_freq_t_5.bed \
+    --other data/1kg_pop_freq.lr_samples.bed \
+    --out img/stix_lr_vs_1kg_pop_freq.png \
+    --height 4 \
+    --width 5 \
+    --xlabel "Num. samples call non-ref by 1KG" \
+    --ylabel "Num. of sames with STIX depth > 5" \
+    --title "1KG germline SVs"
+r = 0.80, p=0.00e+00
+```
+![](img/stix_lr_vs_1kg_pop_freq.png)
+
 ## Data files
 
 ### Long-read population frequency
@@ -34,6 +49,7 @@ cat data/lr_te_pop_freq_t_5.bed \
 ```
 python src/get_pop_freq.py \
     --t 5 \
+    --adj \
     --lr "data/LR_STIX_1kg_queries/04.3.SR_all.slop100.tmp*.results" \
 > data/lr_1kg_pop_freq_t_5.bed
 
