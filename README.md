@@ -15,9 +15,22 @@ python src/hex_plot.py \
     --xlabel "Num. samples called non-ref by 1KG" \
     --ylabel "Num. of samples with STIX long-read depth > 5" \
     --title "1KG germline SVs"
+
+python src/hex_plot.py \
+    --color-scale 0,1100 \
+    --stix data/lr_1kg_pop_freq_t_5.bed \
+    --other data/1kg_pop_freq.lr_samples.bed \
+    --out img/stix_lr_vs_1kg_pop_freq.no_log.png \
+    --height 4 \
+    --width 5 \
+    --xlabel "Num. samples called non-ref by 1KG" \
+    --ylabel "Num. of samples with STIX long-read depth > 5" \
+    --title "1KG germline SVs"
+
 r = 0.80, p=0.00e+00
 ```
 ![](img/stix_lr_vs_1kg_pop_freq.png)
+![](img/stix_lr_vs_1kg_pop_freq.no_log.png)
 
 ## Data files
 
@@ -80,8 +93,19 @@ cat data/sr_te_pop_freq_t_5.bed \
     --ylabel "Freq."
 ```
 ![](img/sr_te_pop_freq_t_5.hist.png)
+#### 1KG
 
-### 1KG population frequency
+#### HG002
+```
+python src/get_pop_freq.py \
+    --sr "data/persample1kgqueries/queries.*.DEL.bed" \
+    --t 5 > data/sr_te_pop_freq_t_5.bed
+```
+
+
+#### HG002 CMRG
+
+## 1KG population frequency
 
 ```
 bcftools view \

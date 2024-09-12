@@ -21,7 +21,7 @@ def main():
 
     data = []
     for line in sys.stdin:
-        data.append(int(line))
+        data.append(float(line))
 
     fig, ax = plt.subplots(figsize=(args.width, args.height))
 
