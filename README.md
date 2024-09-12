@@ -1,5 +1,14 @@
 # lr_stix_analysis
 
+## TODO:
+- ~~Get STIX output for TE x STIX LR 1KG~~
+- ~~Get STIX output for TE x STIX SR 1KG~~
+- ~~Get STIX output for 1KG SV  x STIX LR 1KG~~
+- ~~Get STIX output for 1KG SV  x STIX SR 1KG~~
+- Get STIX output for COSMIC x STIX LR 1KG
+- Get STIX output for COSMIC x STIX SR 1KG
+- Get STIX output for HG002  x STIX LR 1KG
+- Get STIX output for HG002  x STIX SR 1KG
 
 
 ## Figures
@@ -101,7 +110,7 @@ cat data/lr_cosmic_pop_freq_t_5.bed \
 #### TEs
 ```
 python src/get_pop_freq.py \
-    --sr "data/persample1kgqueries/queries.*.DEL.bed" \
+    --sr "data/SR_STIX_TE_queries/queries.*.DEL.bed" \
     --t 5 > data/sr_te_pop_freq_t_5.bed
 
 cat data/sr_te_pop_freq_t_5.bed \
@@ -114,6 +123,59 @@ cat data/sr_te_pop_freq_t_5.bed \
 ```
 ![](img/sr_te_pop_freq_t_5.hist.png)
 #### 1KG
+```
+python src/get_pop_freq.py \
+    --sr "data/SR_STIX_1kg_queries/queries.DEL.*.txt" \
+    --t 5 > data/sr_1kg_DEL_pop_freq_t_5.bed
+
+cat data/sr_1kg_DEL_pop_freq_t_5.bed \
+| cut -f 5 \
+| python src/hist.py \
+    --out_file img/sr_1kg_DEL_pop_freq_t_5.hist.png \
+    --log \
+    --xlabel "Pop Freq."\
+    --ylabel "Freq."
+
+python src/get_pop_freq.py \
+    --sr "data/SR_STIX_1kg_queries/queries.DUP.*.txt" \
+    --t 5 > data/sr_1kg_DUP_pop_freq_t_5.bed
+
+cat data/sr_1kg_DUP_pop_freq_t_5.bed \
+| cut -f 5 \
+| python src/hist.py \
+    --out_file img/sr_1kg_DUP_pop_freq_t_5.hist.png \
+    --log \
+    --xlabel "Pop Freq."\
+    --ylabel "Freq."
+
+python src/get_pop_freq.py \
+    --sr "data/SR_STIX_1kg_queries/queries.INV.*.txt" \
+    --t 5 > data/sr_1kg_INV_pop_freq_t_5.bed
+
+cat data/sr_1kg_INV_pop_freq_t_5.bed \
+| cut -f 5 \
+| python src/hist.py \
+    --out_file img/sr_1kg_INV_pop_freq_t_5.hist.png \
+    --log \
+    --xlabel "Pop Freq."\
+    --ylabel "Freq."
+
+python src/get_pop_freq.py \
+    --sr "data/SR_STIX_1kg_queries/queries.*.txt" \
+    --t 5 > data/sr_1kg_pop_freq_t_5.bed
+
+cat data/sr_1kg_pop_freq_t_5.bed \
+| cut -f 5 \
+| python src/hist.py \
+    --out_file img/sr_1kg_pop_freq_t_5.hist.png \
+    --log \
+    --xlabel "Pop Freq."\
+    --ylabel "Freq."
+```
+
+| DEL | DUP | INV | All|
+|-----|-----|-----|----|
+| ![](img/sr_1kg_DEL_pop_freq_t_5.hist.hist.png) | ![](img/sr_1kg_DUP_pop_freq_t_5.hist.hist.png) | ![](img/sr_1kg_INV_pop_freq_t_5.hist.hist.png) | ![](img/sr_1kg_pop_freq_t_5.hist.hist.png) |
 
 #### HG002
 ```

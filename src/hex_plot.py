@@ -27,9 +27,7 @@ def parse_args():
     parser.add_argument("--color", default="Reds")
     parser.add_argument("--xlabel", default="Other pop freq")
     parser.add_argument("--ylabel", default="STIX 1kg 2504 SR pop freq")
-    parser.add_argument("--color-scale", \
-                        type=str_or_tuple,\
-                        default="log",\
+    parser.add_argument("--color-scale", type=str_or_tuple, default="log",\
                         help="\"log\" or comma separated pair of numbers denoting vmin and vmax")
     parser.add_argument("--output", required=True, help="Output png file")
     parser.add_argument('--height', type=int, help="The height of the histogram", default=4)
