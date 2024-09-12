@@ -29,6 +29,16 @@ def parse_lr_file(lr_file):
 
     return samples
 
+def parse_sr_file(sr_file):
+    samples = set()
+    with open(sr_file, 'r') as f:
+        for line in f:
+            A = line.rstrip().split()
+            for s in A[4:]:
+                sample,count = s.split(':')
+                samples.add(sample)
+    return samples
+
 def main():
     args = parse_args()
 
@@ -37,6 +47,12 @@ def main():
         LR = {}
         for file in glob.glob(args.lr):
             new_samples = parse_lr_file(file)
+            samples = samples.union(new_samples)
+
+    if args.sr is not None:
+        SR = {}
+        for file in glob.glob(args.sr):
+            new_samples = parse_sr_file(file)
             samples = samples.union(new_samples)
 
     for sample in samples:

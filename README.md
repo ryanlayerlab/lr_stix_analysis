@@ -14,6 +14,7 @@
 ## Figures
 
 ### 1KG SV frequency
+#### Long read
 ```
 python src/hex_plot.py \
     --stix data/lr_1kg_pop_freq_t_5.bed \
@@ -42,16 +43,43 @@ r = 0.80, p=0.00e+00
 |-----------|--------------|
 |![](img/stix_lr_vs_1kg_pop_freq.png) | ![](img/stix_lr_vs_1kg_pop_freq.no_log.png)|
 
+#### Short read
+```
+python src/hex_plot.py \
+    --stix data/sr_1kg_pop_freq_t_5.bed \
+    --other data/1kg_pop_freq.sr_samples.bed \
+    --out img/stix_sr_vs_1kg_pop_freq.png \
+    --height 4 \
+    --width 5 \
+    --xlabel "Num. samples called non-ref by 1KG" \
+    --ylabel "Num. of samples with STIX short-read depth > 5" \
+    --title "1KG germline SVs"
+
+python src/hex_plot.py \
+    --color-scale 0,2504 \
+    --stix data/sr_1kg_pop_freq_t_5.bed \
+    --other data/1kg_pop_freq.sr_samples.bed \
+    --out img/stix_sr_vs_1kg_pop_freq.no_log.png \
+    --height 4 \
+    --width 5 \
+    --xlabel "Num. samples called non-ref by 1KG" \
+    --ylabel "Num. of samples with STIX short-read depth > 5" \
+    --title "1KG germline SVs"
+
+r = 0.90, p=0.00e+00
+```
+| Log scale | Linear scale |
+|-----------|--------------|
+|![](img/stix_sr_vs_1kg_pop_freq.png) | ![](img/stix_sr_vs_1kg_pop_freq.no_log.png)|
+
+
+
 ## Data files
 
 ### Long-read population frequency
 
 #### TEs
 ```
-python src/get_sample_list.py \
-    --lr "data/LR_STIX_1kg_queries/04.3.SR_all.slop100.tmp*.results"\
-> data/lr_1kg_samples.txt
-
 python src/get_pop_freq.py \
     --t 5 \
     --lr data/02.3.MosiacTEs.unique.query.final_intersected.slop100.results \
@@ -70,6 +98,10 @@ cat data/lr_te_pop_freq_t_5.bed \
 
 #### 1KG
 ```
+python src/get_sample_list.py \
+    --lr "data/LR_STIX_1kg_queries/04.3.SR_all.slop100.tmp*.results"\
+> data/lr_1kg_samples.txt
+
 python src/get_pop_freq.py \
     --t 5 \
     --adj \
@@ -103,8 +135,6 @@ cat data/lr_cosmic_pop_freq_t_5.bed \
 ```
 ![](img/lr_cosmic_pop_freq_t_5.bed.hist.png)
 
-
-
 ### Short-read population frequency
 
 #### TEs
@@ -124,6 +154,10 @@ cat data/sr_te_pop_freq_t_5.bed \
 ![](img/sr_te_pop_freq_t_5.hist.png)
 #### 1KG
 ```
+python src/get_sample_list.py \
+    --sr "data/SR_STIX_1kg_queries/queries.DEL.*.txt" \
+> data/sr_1kg_samples.txt
+
 python src/get_pop_freq.py \
     --sr "data/SR_STIX_1kg_queries/queries.DEL.*.txt" \
     --t 5 > data/sr_1kg_DEL_pop_freq_t_5.bed
@@ -184,8 +218,25 @@ python src/get_pop_freq.py \
     --t 5 > data/sr_te_pop_freq_t_5.bed
 ```
 
-
 #### HG002 CMRG
+
+### Joint population frequency
+```
+python src/get_pop_freq.py \
+    --t 5 \
+    --adj \
+    --lr "data/LR_STIX_1kg_queries/04.3.SR_all.slop100.tmp*.results" \
+    --sr "data/SR_STIX_1kg_queries/queries.*.txt"\
+> data/lr_sr_1kg_pop_freq_t_5.bed
+
+cat data/lr_sr_1kg_pop_freq_t_5.bed \
+| cut -f 5 \
+| python src/hist.py \
+    --out_file img/lr_sr_1kg_pop_freq_t_5.hist.png \
+    --log \
+    --xlabel "Pop Freq."\
+    --ylabel "Freq."
+```
 
 ## 1KG population frequency
 
@@ -205,6 +256,29 @@ cat data/1kg_pop_freq.lr_samples.bed \
     --log \
     --xlabel "Pop Freq."\
     --ylabel "Freq."
+
+bcftools view \
+    --force-samples \
+    -S data/sr_1kg_samples.txt data/1KGP_3202.gatksv_svtools_novelins.freeze_V3.wAF.vcf.gz  \
+| bcftools query \
+    -f "%CHROM\t%POS\t%INFO/END\t%INFO/SVTYPE\t[%GT\t]\n" \
+| python src/count_non_refs.py \
+> data/1kg_pop_freq.sr_samples.bed
+
+(cat data/lr_1kg_samples.txt; cat data/sr_1kg_samples.txt) \
+| sort \
+| uniq \
+> lr_sr_1kg_samples.txt
+
+bcftools view \
+    --force-samples \
+    -S data/lr_sr_1kg_samples.txt data/1KGP_3202.gatksv_svtools_novelins.freeze_V3.wAF.vcf.gz  \
+| bcftools query \
+    -f "%CHROM\t%POS\t%INFO/END\t%INFO/SVTYPE\t[%GT\t]\n" \
+| python src/count_non_refs.py \
+> data/1kg_pop_freq.lr_sr_samples.bed
+
+
 ```
 
 ![](img/1kg_pop_freq.lr_samples.hist.png)
