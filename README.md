@@ -72,6 +72,34 @@ r = 0.90, p=0.00e+00
 |-----------|--------------|
 |![](img/stix_sr_vs_1kg_pop_freq.png) | ![](img/stix_sr_vs_1kg_pop_freq.no_log.png)|
 
+#### Long and Short read
+```
+python src/hex_plot.py \
+    --stix data/lr_sr_1kg_pop_freq_t_5.bed \
+    --other data/1kg_pop_freq.lr_sr_samples.bed \
+    --out img/stix_lr_sr_vs_1kg_pop_freq.png \
+    --height 4 \
+    --width 5 \
+    --xlabel "Num. samples called non-ref by 1KG" \
+    --ylabel "Num. of samples with STIX short- or long-read depth > 5" \
+    --title "1KG germline SVs"
+
+python src/hex_plot.py \
+    --color-scale 0,2504 \
+    --stix data/lr_sr_1kg_pop_freq_t_5.bed \
+    --other data/1kg_pop_freq.lr_sr_samples.bed \
+    --out img/stix_lr_sr_vs_1kg_pop_freq.no_log.png \
+    --height 4 \
+    --width 5 \
+    --xlabel "Num. samples called non-ref by 1KG" \
+    --ylabel "Num. of samples with STIX short- or long-read depth > 5" \
+    --title "1KG germline SVs"
+
+r = 0.90, p=0.00e+00
+```
+| Log scale | Linear scale |
+|-----------|--------------|
+|![](img/stix_lr_sr_vs_1kg_pop_freq.png) | ![](img/stix_lr_sr_vs_1kg_pop_freq.no_log.png)|
 
 
 ## Data files
@@ -268,7 +296,7 @@ bcftools view \
 (cat data/lr_1kg_samples.txt; cat data/sr_1kg_samples.txt) \
 | sort \
 | uniq \
-> lr_sr_1kg_samples.txt
+> data/lr_sr_1kg_samples.txt
 
 bcftools view \
     --force-samples \
