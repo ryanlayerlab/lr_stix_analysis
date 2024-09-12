@@ -22,6 +22,7 @@
 | Both  |![](img/stix_lr_sr_vs_1kg_pop_freq.png) | ![](img/stix_lr_sr_vs_1kg_pop_freq.no_log.png)|
 
 <details>
+    
 #### Long read
 ```
 python src/hex_plot.py \
@@ -99,6 +100,7 @@ python src/hex_plot.py \
 
 r = 0.90, p=0.00e+00
 ```
+
 </details>
 
 |Log scale | Linear scale |
