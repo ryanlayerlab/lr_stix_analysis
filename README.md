@@ -76,6 +76,25 @@ cat data/lr_1kg_pop_freq_t_5.bed \
 ```
 ![](img/lr_1kg_pop_freq_t_5.hist.png)
 
+#### Cosmic
+```
+python src/get_pop_freq.py \
+    --t 5 \
+    --lr "data/fig.4b.Cosmic_StructuralVariants_v99_GRCh38.del.slop100.results" \
+> data/lr_cosmic_pop_freq_t_5.bed
+
+cat data/lr_cosmic_pop_freq_t_5.bed \
+| cut -f 5 \
+| python src/hist.py \
+    --out_file img/lr_cosmic_pop_freq_t_5.bed.hist.png \
+    --log \
+    --xlabel "Pop Freq."\
+    --ylabel "Freq."
+```
+![](img/lr_cosmic_pop_freq_t_5.bed.hist.png)
+
+
+
 ### Short-read population frequency
 
 #### TEs
