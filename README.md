@@ -13,7 +13,7 @@
 
 ## Figures
 
-### 1KG SV frequency
+### STIX vs 1KG SV frequency
 
 | |Log scale | Linear scale |
 |-|----------|--------------|
@@ -102,6 +102,8 @@ r = 0.90, p=0.00e+00
 ```
 
 </details>
+
+### STIX vs Long read vs Short read
 
 |Log scale | Linear scale |
 |----------|--------------|
