@@ -29,8 +29,9 @@ python src/hex_plot.py \
 
 r = 0.80, p=0.00e+00
 ```
-![](img/stix_lr_vs_1kg_pop_freq.png)
-![](img/stix_lr_vs_1kg_pop_freq.no_log.png)
+| Log scale | Linear scale |
+|-----------|--------------|
+|![](img/stix_lr_vs_1kg_pop_freq.png) | ![](img/stix_lr_vs_1kg_pop_freq.no_log.png)|
 
 ## Data files
 
