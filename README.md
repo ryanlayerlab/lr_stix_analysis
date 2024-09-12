@@ -101,6 +101,42 @@ r = 0.90, p=0.00e+00
 ```
 </details>
 
+|Log scale | Linear scale |
+|----------|--------------|
+|![](img/stix_lr_vs_sr_pop_freq.png) | ![](img/stix_lr_vs_sr_pop_freq.no_log.png)|
+
+<details>
+
+```
+python src/hex_plot.py \
+    --stix data/lr_1kg_pop_freq_t_5.bed \
+    --other data/sr_1kg_pop_freq_t_5.bed \
+    --out img/stix_lr_vs_sr_pop_freq.png \
+    --height 4 \
+    --width 5 \
+    --xlabel "Num. of samples with STIX short-read depth > 5" \
+    --ylabel "Num. of samples with STIX long-read depth > 5" \
+    --title "1KG germline SVs"
+
+python src/hex_plot.py \
+    --color-scale 0,1100 \
+    --stix data/lr_1kg_pop_freq_t_5.bed \
+    --other data/sr_1kg_pop_freq_t_5.bed \
+    --out img/stix_lr_vs_sr_pop_freq.no_log.png \
+    --height 4 \
+    --width 5 \
+    --xlabel "Num. of samples with STIX short-read depth > 5" \
+    --ylabel "Num. of samples with STIX long-read depth > 5" \
+    --title "1KG germline SVs"
+
+r = 0.80, p=0.00e+00
+```
+
+</details>
+
+
+
+
 ## Data files
 
 ### Long-read population frequency
