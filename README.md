@@ -175,7 +175,7 @@ cat data/sr_1kg_pop_freq_t_5.bed \
 
 | DEL | DUP | INV | All|
 |-----|-----|-----|----|
-| ![](img/sr_1kg_DEL_pop_freq_t_5.hist.hist.png) | ![](img/sr_1kg_DUP_pop_freq_t_5.hist.hist.png) | ![](img/sr_1kg_INV_pop_freq_t_5.hist.hist.png) | ![](img/sr_1kg_pop_freq_t_5.hist.hist.png) |
+| ![](img/sr_1kg_DEL_pop_freq_t_5.hist.png) | ![](img/sr_1kg_DUP_pop_freq_t_5.hist.png) | ![](img/sr_1kg_INV_pop_freq_t_5.hist.png) | ![](img/sr_1kg_pop_freq_t_5.hist.png) |
 
 #### HG002
 ```
