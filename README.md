@@ -324,6 +324,25 @@ cat data/lr_cosmic_pop_freq_t_5.bed \
 
 ### Short-read population frequency
 
+#### Sample depth
+
+<details>
+
+```
+bash src/get_sr_depth.sh > data/sr_sample_depth.txt
+
+cat data/sr_sample_depth.txt \
+| cut -f 2 \
+| python src/hist.py \
+    --out_file img/sr_sample_depth.hist.png \
+    --xlabel "Sample depth" \
+    --ylabel "Freq."
+```
+
+![](img/sr_sample_depth.hist.png)
+
+</details>
+
 #### TEs
 
 <details>
