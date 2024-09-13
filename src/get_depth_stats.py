@@ -12,7 +12,7 @@ def parse_args():
 
     return parser.parse_args()
 
-def get_sample_depths(file_name):
+def get_lr_sample_depths(file_name):
     S = {}
     with open(file_name, 'r') as f:
         for line in f:
@@ -20,6 +20,14 @@ def get_sample_depths(file_name):
             if sample not in S:
                 S[sample] = {}
             S[sample][tech] = float(depth)
+    return S
+
+def get_sr_sample_depths(file_name):
+    S = {}
+    with open(file_name, 'r') as f:
+        for line in f:
+            sample, depth = line.rstrip().split()
+            S[sample] = float(depth)
     return S
 
 def get_sv_from_header(line, adj):
@@ -58,21 +66,19 @@ def parse_lr_file(lr_file, LR, adj):
                 LR[sv][sample] = paired + split
     return LR
 
-def parse_sr_file(sr_file, SR, t):
+def parse_sr_file(sr_file, SR):
     with open(sr_file, 'r') as f:
         for line in f:
             A = line.rstrip().split()
             sv = (A[0], A[1], A[2], A[3])
 
             if sv not in SR:
-                SR[sv] = set()
+                SR[sv] = {}
 
             for s in A[4:]:
                 sample,count = s.split(':')
                 count = int(count)
-
-                if count >= t:
-                    SR[sv].add(sample)
+                SR[sv][sample] = count
     return SR
 
 def split_sample_tech(sample):
@@ -92,29 +98,52 @@ def main():
 
     SV = {}
 
-    sample_depths = get_sample_depths(args.coverage)
 
     if args.lr is not None:
+        sample_depths = get_lr_sample_depths(args.coverage)
+
         for file in glob.glob(args.lr):
             SV = parse_lr_file(file, SV, args.adj)
 
-    for sv in SV:
-        non_zero_depths = []
-        for sample in SV[sv]:
-            sid, tech = split_sample_tech(sample)
-            if sid not in sample_depths:
-                continue
-            if tech not in sample_depths[sid]:
-                continue
-            depth = sample_depths[sid][tech]
+        for sv in SV:
+            non_zero_depths = []
+            for sample in SV[sv]:
+                sid, tech = split_sample_tech(sample)
+                if sid not in sample_depths:
+                    continue
+                if tech not in sample_depths[sid]:
+                    continue
+                depth = sample_depths[sid][tech]
 
-            if SV[sv][sample] > 0:
-                non_zero_depths.append(SV[sv][sample]/depth)
+                if SV[sv][sample] > 0:
+                    non_zero_depths.append(SV[sv][sample]/depth)
 
-        if args.stat == 'mean':
-            print('\t'.join(list(sv) + [str(np.mean(non_zero_depths))]))
-        elif args.stat == 'median':
-            print('\t'.join(list(sv) + [str(np.median(non_zero_depths))]))
+            if args.stat == 'mean':
+                print('\t'.join(list(sv) + [str(np.mean(non_zero_depths))]))
+            elif args.stat == 'median':
+                print('\t'.join(list(sv) + [str(np.median(non_zero_depths))]))
+
+    elif args.sr is not None:
+        sample_depths = get_sr_sample_depths(args.coverage)
+
+        for file in glob.glob(args.sr):
+            SV = parse_sr_file(file, SV)
+
+        for sv in SV:
+            non_zero_depths = []
+            for sample in SV[sv]:
+                if sample not in sample_depths:
+                    continue
+                depth = sample_depths[sample]
+                if SV[sv][sample] > 0:
+                    non_zero_depths.append(SV[sv][sample]/depth)
+
+            if args.stat == 'mean':
+                print('\t'.join(list(sv) + [str(np.mean(non_zero_depths))]))
+            elif args.stat == 'median':
+                print('\t'.join(list(sv) + [str(np.median(non_zero_depths))]))
+
+
 
 if __name__ == '__main__':
     main()

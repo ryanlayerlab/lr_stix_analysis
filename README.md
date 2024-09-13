@@ -139,15 +139,17 @@ r = 0.80, p=0.00e+00
 </details>
 
 
-### STIX TE Long Read freq vs depth
+### STIX TE freq vs depth
 
-|Log scale | Linear scale |
-|----------|--------------|
-|![](img/stix_lr_te_depth_v_freq.png) | ![](img/stix_lr_te_depth_v_freq.no_log.png)|
+| |Log scale | Linear scale |
+|-|----------|--------------|
+|Long reads | ![](img/stix_lr_te_depth_v_freq.png) | ![](img/stix_lr_te_depth_v_freq.no_log.png)|
+|Short reads | ![](img/stix_sr_te_depth_v_freq.png) | ![](img/stix_sr_te_depth_v_freq.no_log.png)|
 
 
 <details>
 
+#### Long reads
 ```
 python src/hex_plot.py \
     --stix data/lr_te_mean_depth.bed \
@@ -163,18 +165,46 @@ r = 0.91, p=0.00e+00
 
 python src/hex_plot.py \
     --color-scale 0,1100 \
-    --stix data/lr_1kg_pop_freq_t_5.bed \
+    --stix data/lr_te_mean_depth.bed \
     --stix_max 1.0 \
-    --other data/sr_1kg_pop_freq_t_5.bed \
+    --other data/lr_te_pop_freq_t_1.bed \
     --out img/stix_lr_te_depth_v_freq.no_log.png \
     --height 4 \
     --width 5 \
-    --xlabel "Num. of samples with STIX short-read depth > 5" \
-    --ylabel "Num. of samples with STIX long-read depth > 5" \
-    --title "1KG germline SVs"
+    --xlabel "Num. of samples with STIX long-read depth > 0" \
+    --ylabel "Mean SV evidence depth / coverage " \
+    --title "TE SVs"
 
 r = 0.80, p=0.00e+00
 ```
+
+#### Short reads
+```
+python src/hex_plot.py \
+    --stix data/sr_te_mean_depth.bed \
+    --stix_max 1.0 \
+    --other data/sr_te_pop_freq_t_1.bed \
+    --out img/stix_sr_te_depth_v_freq.png \
+    --height 4 \
+    --width 5 \
+    --xlabel "Num. of samples with STIX short-read depth > 0" \
+    --ylabel "Mean SV evidence depth / coverage " \
+    --title "TE SVs"
+r = 0.12, p=8.15e-44
+
+python src/hex_plot.py \
+    --color-scale 0,1100 \
+    --stix data/sr_te_mean_depth.bed \
+    --stix_max 1.0 \
+    --other data/sr_te_pop_freq_t_1.bed \
+    --out img/stix_sr_te_depth_v_freq.no_log.png \
+    --height 4 \
+    --width 5 \
+    --xlabel "Num. of samples with STIX short-read depth > 0" \
+    --ylabel "Mean SV evidence depth / coverage " \
+    --title "TE SVs"
+```
+
 </details>
 
 
@@ -184,6 +214,8 @@ r = 0.80, p=0.00e+00
 ### Long-read population frequency
 
 #### TEs
+
+<details>
 ```
 python src/get_pop_freq.py \
     --t 5 \
@@ -225,7 +257,8 @@ cat data/lr_te_mean_depth.bed \
     --xlabel "Mean Alt Evidence Depth / Coverage"\
     --ylabel "Freq."
 ```
-<details>
+
+</details>
 
 | Experiment | Histogram |
 |------------|-----------|
@@ -234,9 +267,11 @@ cat data/lr_te_mean_depth.bed \
 | Long Read, TE SVs, mean sample depth      | ![](img/lr_te_mean_depth.hist.png) | 
 
 
-</details>
 
 #### 1KG
+
+<details>
+
 ```
 python src/get_sample_list.py \
     --lr "data/LR_STIX_1kg_queries/04.3.SR_all.slop100.tmp*.results"\
@@ -257,12 +292,17 @@ cat data/lr_1kg_pop_freq_t_5.bed \
     --ylabel "Freq."
 ```
 
+</details>
+
 | Experiment | Histogram |
 |------------|-----------|
 |Long Read, 1KG SVs, samples with depth > 5 | ![](img/lr_1kg_pop_freq_t_5.hist.png) |
 
 
 #### Cosmic
+
+<details>
+
 ```
 python src/get_pop_freq.py \
     --t 5 \
@@ -277,11 +317,17 @@ cat data/lr_cosmic_pop_freq_t_5.bed \
     --xlabel "Pop Freq."\
     --ylabel "Freq."
 ```
+
+</etails>
+
 ![](img/lr_cosmic_pop_freq_t_5.bed.hist.png)
 
 ### Short-read population frequency
 
 #### TEs
+
+<details>
+
 ```
 python src/get_pop_freq.py \
     --sr "data/SR_STIX_TE_queries/queries.*.DEL.bed" \
@@ -294,9 +340,47 @@ cat data/sr_te_pop_freq_t_5.bed \
     --log \
     --xlabel "Pop Freq."\
     --ylabel "Freq."
+
+python src/get_pop_freq.py \
+    --sr "data/SR_STIX_TE_queries/queries.*.DEL.bed" \
+    --t 1 > data/sr_te_pop_freq_t_1.bed
+
+cat data/sr_te_pop_freq_t_1.bed \
+| cut -f 5 \
+| python src/hist.py \
+    --out_file img/sr_te_pop_freq_t_1.hist.png \
+    --log \
+    --xlabel "Pop Freq."\
+    --ylabel "Freq."
+
+
+python src/get_depth_stats.py \
+    --stat mean \
+    --sr "data/SR_STIX_TE_queries/queries.*.DEL.bed" \
+    --coverage data/sr_sample_depth.txt \
+> data/sr_te_mean_depth.bed
+
+cat data/sr_te_mean_depth.bed \
+| cut -f 5 \
+| python src/hist.py \
+    --out_file img/sr_te_mean_depth.hist.png \
+    --log \
+    --xlabel "Mean Alt Evidence Depth / Coverage"\
+    --ylabel "Freq."
 ```
-![](img/sr_te_pop_freq_t_5.hist.png)
+
+</details>
+
+| Experiment | Histogram |
+|------------|-----------|
+| Short Read, TE SVs, samples with depth > 5 | ![](img/sr_te_pop_freq_t_5.hist.png) |
+| Short Read, TE SVs, samples with depth > 1 | ![](img/sr_te_pop_freq_t_1.hist.png) |
+| Short Read, TE SVs, mean sample depth      | ![](img/sr_te_mean_depth.hist.png) | 
+
 #### 1KG
+
+<details>
+
 ```
 python src/get_sample_list.py \
     --sr "data/SR_STIX_1kg_queries/queries.DEL.*.txt" \
@@ -351,20 +435,30 @@ cat data/sr_1kg_pop_freq_t_5.bed \
     --ylabel "Freq."
 ```
 
+</details>
+
 | DEL | DUP | INV | All|
 |-----|-----|-----|----|
 | ![](img/sr_1kg_DEL_pop_freq_t_5.hist.png) | ![](img/sr_1kg_DUP_pop_freq_t_5.hist.png) | ![](img/sr_1kg_INV_pop_freq_t_5.hist.png) | ![](img/sr_1kg_pop_freq_t_5.hist.png) |
 
 #### HG002
+
+<details>
+
 ```
 python src/get_pop_freq.py \
     --sr "data/persample1kgqueries/queries.*.DEL.bed" \
     --t 5 > data/sr_te_pop_freq_t_5.bed
 ```
 
+</details>
+
 #### HG002 CMRG
 
 ### Joint population frequency
+
+<details>
+
 ```
 python src/get_pop_freq.py \
     --t 5 \
@@ -381,8 +475,14 @@ cat data/lr_sr_1kg_pop_freq_t_5.bed \
     --xlabel "Pop Freq."\
     --ylabel "Freq."
 ```
+</details>
+
+![](img/lr_sr_1kg_pop_freq_t_5.hist.png)
+
 
 ## 1KG population frequency
+
+<details>
 
 ```
 bcftools view \
@@ -421,8 +521,8 @@ bcftools view \
     -f "%CHROM\t%POS\t%INFO/END\t%INFO/SVTYPE\t[%GT\t]\n" \
 | python src/count_non_refs.py \
 > data/1kg_pop_freq.lr_sr_samples.bed
-
-
 ```
+
+</details>
 
 ![](img/1kg_pop_freq.lr_samples.hist.png)
