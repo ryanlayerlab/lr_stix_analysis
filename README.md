@@ -208,6 +208,23 @@ python src/hex_plot.py \
 
 </details>
 
+### Long-reads
+
+| | t > 5 | t > 1 |
+|--------------|-|-|
+| Fixed bins   | ![](img/lr_te_freq_fixed_bins_t_5.png) | ![](img/lr_te_freq_fixed_bins_t_1.png) |
+| Dynamic bins | ![](img/lr_te_freq_fixed_bins_t_5.hist.png) | ![](img/lr_te_freq_fixed_bins_t_1.hist.png) |
+
+### Short-reads
+| | t > 5 | t > 1 |
+|--------------|-|-|
+| Fixed bins   | ![](img/sr_te_freq_fixed_bins_t_5.png) | ![](img/sr_te_freq_fixed_bins_t_1.png) |
+| Dynamic bins | ![](img/sr_te_freq_fixed_bins_t_5.hist.png) | ![](img/sr_te_freq_fixed_bins_t_1.hist.png) |
+
+
+<details>
+
+### Long-reads
 ```
 cat data/lr_te_pop_freq_t_5.bed \
 | awk '{print $5/1109;}' \
@@ -243,10 +260,10 @@ cat data/lr_te_pop_freq_t_1.bed \
     --ylabel "Freq." \
     --title "TE SVs"
 ```
-| | t > 5 | t > 1 |
-|--------------|-|-|
-| Fixed bins   | ![](img/lr_te_freq_fixed_bins_t_5.png) | ![](img/lr_te_freq_fixed_bins_t_1.png) |
-| Dynamic bins | ![](img/lr_te_freq_fixed_bins_t_5.hist.png) | ![](img/lr_te_freq_fixed_bins_t_1.hist.png) |
+
+### Short-reads
+
+</details>
 
 
 ## Data files
