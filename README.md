@@ -9,6 +9,7 @@
 - Get STIX output for COSMIC x STIX SR 1KG
 - Get STIX output for HG002  x STIX LR 1KG
 - Get STIX output for HG002  x STIX SR 1KG
+- Get short read sample depths
 
 
 ## Figures
@@ -207,6 +208,45 @@ python src/hex_plot.py \
 
 </details>
 
+```
+cat data/lr_te_pop_freq_t_5.bed \
+| awk '{print $5/1109;}' \
+|  python src/custom_hist.py \
+    --bins 0 0.001 .01 .05 1.0 \
+    --bin_names "0%" "(0%-1%]" "(1%-5%]" "(5%-100%]" \
+    --out_file img/lr_te_freq_fixed_bins_t_5.png \
+    --xlabel "% of samples with long-read depth > 5"\
+    --ylabel "Number of TEs"
+
+cat data/lr_te_pop_freq_t_1.bed \
+| awk '{print $5/1109;}' \
+|  python src/custom_hist.py \
+    --bins 0 0.001 .01 .05 1.0 \
+    --bin_names "0%" "(0%-1%]" "(1%-5%]" "(5%-100%]" \
+    --out_file img/lr_te_freq_fixed_bins_t_1.png \
+    --xlabel "% of samples with long-read depth > 1"\
+    --ylabel "Number of TEs"
+
+cat data/lr_te_pop_freq_t_5.bed \
+| awk '{print $5/1109;}' \
+| python src/hist.py \
+    --out_file img/lr_te_freq_fixed_bins_t_5.hist.png \
+    --xlabel "% of samples with long-read evidence > 5" \
+    --ylabel "Freq." \
+    --title "TE SVs"
+
+cat data/lr_te_pop_freq_t_1.bed \
+| awk '{print $5/1109;}' \
+| python src/hist.py \
+    --out_file img/lr_te_freq_fixed_bins_t_1.hist.png \
+    --xlabel "% of samples with long-read evidence > 1"  \
+    --ylabel "Freq." \
+    --title "TE SVs"
+```
+| | t > 5 | t > 1 |
+|--------------|-|-|
+| Fixed bins   | ![](img/lr_te_freq_fixed_bins_t_5.png) | ![](img/lr_te_freq_fixed_bins_t_1.png) |
+| Dynamic bins | ![](img/lr_te_freq_fixed_bins_t_5.hist.png) | ![](img/lr_te_freq_fixed_bins_t_1.hist.png) |
 
 
 ## Data files

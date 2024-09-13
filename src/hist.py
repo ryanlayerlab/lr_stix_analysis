@@ -13,6 +13,32 @@ def get_args():
     parser.add_argument('--xlabel', type=str, help="The x-axis label")
     parser.add_argument('--ylabel', type=str, help="The y-axis label")
 
+    parser.add_argument("--tick_line_length",
+                        type=float,
+                        default=2,
+                        help="Tick line width")
+
+    parser.add_argument("--tick_line_width",
+                        type=float,
+                        default=0.5,
+                        help="Tick line width")
+
+    parser.add_argument("--axis_line_width",
+                        type=float,
+                        default=0.5,
+                        help="Axis line width")
+
+    parser.add_argument("--axis_label_size",
+                        type=int,
+                        default=8,
+                        help="Axis label font size")
+
+    parser.add_argument("--tick_label_size",
+                        type=int,
+                        default=8,
+                        help="Axis tick label font size")
+
+
     return parser.parse_args()
 
 
@@ -31,7 +57,7 @@ def main():
         ax.set_yscale('log')
 
     if args.title:
-        ax.set_title(args.title)
+        ax.set_title(args.title, fontsize=args.axis_label_size, loc='left')
 
     if args.xlabel:
         ax.set_xlabel(args.xlabel)
@@ -41,6 +67,12 @@ def main():
 
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
+
+    ax.tick_params(axis='both',
+                   which='major',
+                   labelsize=args.axis_label_size,
+                   width=args.tick_line_width,
+                   length=args.tick_line_length)
 
     fig.tight_layout()
     fig.savefig(args.out_file)
