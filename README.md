@@ -180,6 +180,7 @@ python src/hex_plot.py \
 |--------------|-|-|
 | Fixed bins   | ![](img/lr_cosmic_freq_fixed_bins_t_5.png) | ![](img/lr_cosmic_freq_fixed_bins_t_1.png) |
 | Dynamic bins | ![](img/lr_cosmic_freq_fixed_bins_t_5.hist.png) | ![](img/lr_cosmic_freq_fixed_bins_t_1.hist.png) |
+| Dynamic bins log scale| ![](img/lr_cosmic_freq_fixed_bins_t_5.hist.log.png) | ![](img/lr_cosmic_freq_fixed_bins_t_1.hist.log.png) |
 
 ### STIX Short-read TE Pop %
 
@@ -211,7 +212,7 @@ cat data/lr_cosmic_pop_freq_t_1.bed \
 cat data/lr_cosmic_pop_freq_t_5.bed \
 | awk '{print $5/1109;}' \
 | python src/hist.py \
-    --out_file img/lr_te_freq_fixed_bins_t_5.hist.png \
+    --out_file img/lr_cosmic_freq_fixed_bins_t_5.hist.png \
     --xlabel "% of samples with long-read evidence > 5" \
     --ylabel "Freq." \
     --title "COSMIC SVs"
@@ -219,10 +220,29 @@ cat data/lr_cosmic_pop_freq_t_5.bed \
 cat data/lr_cosmic_pop_freq_t_1.bed \
 | awk '{print $5/1109;}' \
 | python src/hist.py \
-    --out_file img/lr_te_freq_fixed_bins_t_1.hist.png \
+    --out_file img/lr_cosmic_freq_fixed_bins_t_1.hist.png \
     --xlabel "% of samples with long-read evidence > 1"  \
     --ylabel "Freq." \
     --title "COSMIC SVs"
+
+cat data/lr_cosmic_pop_freq_t_5.bed \
+| awk '{print $5/1109;}' \
+| python src/hist.py \
+    --log \
+    --out_file img/lr_cosmic_freq_fixed_bins_t_5.hist.log.png \
+    --xlabel "% of samples with long-read evidence > 5" \
+    --ylabel "Freq." \
+    --title "COSMIC SVs"
+
+cat data/lr_cosmic_pop_freq_t_1.bed \
+| awk '{print $5/1109;}' \
+| python src/hist.py \
+    --log \
+    --out_file img/lr_cosmic_freq_fixed_bins_t_1.hist.log.png \
+    --xlabel "% of samples with long-read evidence > 1"  \
+    --ylabel "Freq." \
+    --title "COSMIC SVs"
+
 ```
 
 
@@ -320,7 +340,8 @@ cat data/lr_te_pop_freq_t_5.bed \
     --bin_names "0%" "(0%-1%]" "(1%-5%]" "(5%-100%]" \
     --out_file img/lr_te_freq_fixed_bins_t_5.png \
     --xlabel "% of samples with long-read depth > 5"\
-    --ylabel "Number of TEs"
+    --ylabel "Number of TEs" \
+    --title "TE SVs"
 
 cat data/lr_te_pop_freq_t_1.bed \
 | awk '{print $5/1109;}' \
@@ -329,7 +350,8 @@ cat data/lr_te_pop_freq_t_1.bed \
     --bin_names "0%" "(0%-1%]" "(1%-5%]" "(5%-100%]" \
     --out_file img/lr_te_freq_fixed_bins_t_1.png \
     --xlabel "% of samples with long-read depth > 1"\
-    --ylabel "Number of TEs"
+    --ylabel "Number of TEs" \
+    --title "TE SVs"
 
 cat data/lr_te_pop_freq_t_5.bed \
 | awk '{print $5/1109;}' \
