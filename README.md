@@ -159,9 +159,44 @@ cat data/lr_te_pop_freq_t_5.bed \
     --log \
     --xlabel "Pop Freq."\
     --ylabel "Freq."
-```
-![](img/lr_te_pop_freq_t_5.hist.png)
 
+python src/get_pop_freq.py \
+    --t 1 \
+    --lr data/02.3.MosiacTEs.unique.query.final_intersected.slop100.results \
+> data/lr_te_pop_freq_t_1.bed
+
+cat data/lr_te_pop_freq_t_1.bed \
+| cut -f 5 \
+| python src/hist.py \
+    --out_file img/lr_te_pop_freq_t_1.hist.png \
+    --log \
+    --xlabel "Pop Freq."\
+    --ylabel "Freq."
+
+python src/get_depth_stats.py \
+    --stat mean \
+    --lr data/02.3.MosiacTEs.unique.query.final_intersected.slop100.results \
+    --coverage data/lr_sample_depth.txt \
+> data/lr_te_mean_depth.bed
+
+cat data/lr_te_mean_depth.bed \
+| cut -f 5 \
+| python src/hist.py \
+    --out_file img/lr_te_mean_depth.hist.png \
+    --log \
+    --xlabel "Pop Freq."\
+    --ylabel "Freq."
+```
+<details>
+
+| Experiment | Histogram |
+|------------|-----------|
+| Long Read TE samples with depth > 5 | ![](img/lr_te_pop_freq_t_5.hist.png) |
+| Long Read TE samples with depth > 1 | ![](img/lr_te_pop_freq_t_1.hist.png) |
+| Long Read TE mean sample depth      | ![](img/lr_te_mean_depth.hist.png) | 
+
+
+</details>
 
 #### 1KG
 ```
