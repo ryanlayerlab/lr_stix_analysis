@@ -125,6 +125,7 @@ def plot_data(
         sep="\t",
         names=["chrom", "start", "end", "svtype", "other_count"],
     )
+    other_df["other_count"] = other_df["other_count"].apply(lambda x: 0 if x == -1 else x)
 
     merged_df = pd.merge(stix_df, other_df, on=["chrom", "start", "end", "svtype"])
 

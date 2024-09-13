@@ -139,6 +139,40 @@ r = 0.80, p=0.00e+00
 
 </details>
 
+### STIX HG002
+
+| | Long Reads | Short Reads |
+|-|-|-|
+| HG002 all  | | ![](img/stix_sr_hg002_vs_gnomad_pop_freq.png)|
+| HG002 CMRG | | ![](img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png)|
+
+<details>
+
+```
+python src/hex_plot.py \
+    --stix data/sr_hg002_pop_freq_t_5.bed \
+    --other data/HG002.gnomadAF.DEL.bed \
+    --out img/stix_sr_hg002_vs_gnomad_pop_freq.png \
+    --height 4 \
+    --width 5 \
+    --xlabel "Allele freq. in gnomAD" \
+    --ylabel "Num. of samples with STIX long-read depth > 5" \
+    --title "HG002 SVs"
+
+python src/hex_plot.py \
+    --stix data/sr_hg002_cmrg_pop_freq_t_5.bed \
+    --other data/HG002.gnomadAF.DEL.bed \
+    --out img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png \
+    --height 4 \
+    --width 5 \
+    --xlabel "Allele freq. in gnomAD" \
+    --ylabel "Num. of samples with STIX long-read depth > 5" \
+    --title "HG002 CMRG SVs"
+
+```
+
+</details>
+
 
 ### STIX TE freq vs depth
 
@@ -208,14 +242,14 @@ python src/hex_plot.py \
 
 </details>
 
-### Long-reads
+### STIX Long-read TE Pop %
 
 | | t > 5 | t > 1 |
 |--------------|-|-|
 | Fixed bins   | ![](img/lr_te_freq_fixed_bins_t_5.png) | ![](img/lr_te_freq_fixed_bins_t_1.png) |
 | Dynamic bins | ![](img/lr_te_freq_fixed_bins_t_5.hist.png) | ![](img/lr_te_freq_fixed_bins_t_1.hist.png) |
 
-### Short-reads
+### STIX Short-read TE Pop %
 | | t > 5 | t > 1 |
 |--------------|-|-|
 | Fixed bins   | ![](img/sr_te_freq_fixed_bins_t_5.png) | ![](img/sr_te_freq_fixed_bins_t_1.png) |
@@ -262,6 +296,43 @@ cat data/lr_te_pop_freq_t_1.bed \
 ```
 
 ### Short-reads
+
+```
+cat data/sr_te_pop_freq_t_5.bed \
+| awk '{print $5/1109;}' \
+|  python src/custom_hist.py \
+    --bins 0 0.001 .01 .05 1.0 \
+    --bin_names "0%" "(0%-1%]" "(1%-5%]" "(5%-100%]" \
+    --out_file img/sr_te_freq_fixed_bins_t_5.png \
+    --xlabel "% of samples with short-read depth > 5"\
+    --ylabel "Number of TEs"
+
+cat data/sr_te_pop_freq_t_1.bed \
+| awk '{print $5/1109;}' \
+|  python src/custom_hist.py \
+    --bins 0 0.001 .01 .05 1.0 \
+    --bin_names "0%" "(0%-1%]" "(1%-5%]" "(5%-100%]" \
+    --out_file img/sr_te_freq_fixed_bins_t_1.png \
+    --xlabel "% of samples with short-read depth > 1"\
+    --ylabel "Number of TEs"
+
+cat data/sr_te_pop_freq_t_5.bed \
+| awk '{print $5/1109;}' \
+| python src/hist.py \
+    --out_file img/sr_te_freq_fixed_bins_t_5.hist.png \
+    --xlabel "% of samples with short-read evidence > 5" \
+    --ylabel "Freq." \
+    --title "TE SVs"
+
+cat data/sr_te_pop_freq_t_1.bed \
+| awk '{print $5/1109;}' \
+| python src/hist.py \
+    --out_file img/sr_te_freq_fixed_bins_t_1.hist.png \
+    --xlabel "% of samples with short-read evidence > 1"  \
+    --ylabel "Freq." \
+    --title "TE SVs"
+```
+
 
 </details>
 
@@ -522,9 +593,36 @@ cat data/sr_1kg_pop_freq_t_5.bed \
 
 ```
 python src/get_pop_freq.py \
-    --sr "data/persample1kgqueries/queries.*.DEL.bed" \
-    --t 5 > data/sr_te_pop_freq_t_5.bed
+    --sr "data/SR_STIX_HG002_queries/HG002.raw.*.bed" \
+    --t 5 > data/sr_hg002_pop_freq_t_5.bed
+
+cat data/sr_hg002_pop_freq_t_5.bed \
+| cut -f 5 \
+| python src/hist.py \
+    --title "HG002 SVs" \
+    --out_file img/sr_hg002_pop_freq_t_5.hist.png \
+    --log \
+    --xlabel "Pop Freq."\
+    --ylabel "Freq."
+
+python src/get_pop_freq.py \
+    --sr "data/SR_STIX_HG002_queries/HG002.CMRG.raw.*.bed" \
+    --t 5 > data/sr_hg002_cmrg_pop_freq_t_5.bed
+
+cat data/sr_hg002_cmrg_pop_freq_t_5.bed \
+| cut -f 5 \
+| python src/hist.py \
+    --title "HG002 SVs" \
+    --out_file img/sr_hg002_cmrg_pop_freq_t_5.hist.png \
+    --log \
+    --xlabel "Pop Freq."\
+    --ylabel "Freq."
+
 ```
+
+| HG002 all | HG002 CMRG |
+|-|-|
+| ![](img/sr_hg002_pop_freq_t_5.hist.png) | ![](img/sr_hg002_cmrg_pop_freq_t_5.hist.png) |
 
 </details>
 
