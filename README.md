@@ -14,7 +14,7 @@
 
 ## Figures
 
-### STIX vs 1KG SV frequency
+## STIX vs 1KG SV frequency
 
 | |Log scale | Linear scale |
 |-|----------|--------------|
@@ -104,7 +104,7 @@ r = 0.90, p=0.00e+00
 
 </details>
 
-### STIX vs Long read vs Short read
+## STIX vs Long read vs Short read
 
 |Log scale | Linear scale |
 |----------|--------------|
@@ -139,7 +139,7 @@ r = 0.80, p=0.00e+00
 
 </details>
 
-### STIX HG002
+## STIX HG002
 
 | | Long Reads | Short Reads |
 |-|-|-|
@@ -161,7 +161,7 @@ python src/hex_plot.py \
 
 python src/hex_plot.py \
     --stix data/sr_hg002_cmrg_pop_freq_t_5.bed \
-    --other data/HG002.gnomadAF.DEL.bed \
+    --other data/HG002.cmrg.gnomadAF.DEL.bed \
     --out img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png \
     --height 4 \
     --width 5 \
@@ -173,8 +173,62 @@ python src/hex_plot.py \
 
 </details>
 
+## STIX COSCMIC freq
 
-### STIX TE freq vs depth
+### STIX Long-read COSCMIC Pop %
+| | t > 5 | t > 1 |
+|--------------|-|-|
+| Fixed bins   | ![](img/lr_cosmic_freq_fixed_bins_t_5.png) | ![](img/lr_cosmic_freq_fixed_bins_t_1.png) |
+| Dynamic bins | ![](img/lr_cosmic_freq_fixed_bins_t_5.hist.png) | ![](img/lr_cosmic_freq_fixed_bins_t_1.hist.png) |
+
+### STIX Short-read TE Pop %
+
+
+<details>
+
+### Long-reads
+```
+cat data/lr_cosmic_pop_freq_t_5.bed \
+| awk '{print $5/1109;}' \
+|  python src/custom_hist.py \
+    --bins 0 0.001 .01 .05 1.0 \
+    --bin_names "0%" "(0%-1%]" "(1%-5%]" "(5%-100%]" \
+    --out_file img/lr_cosmic_freq_fixed_bins_t_5.png \
+    --xlabel "% of samples with long-read depth > 5"\
+    --ylabel "Number of TEs" \
+    --title "COSMIC SVs"
+
+cat data/lr_cosmic_pop_freq_t_1.bed \
+| awk '{print $5/1109;}' \
+|  python src/custom_hist.py \
+    --bins 0 0.001 .01 .05 1.0 \
+    --bin_names "0%" "(0%-1%]" "(1%-5%]" "(5%-100%]" \
+    --out_file img/lr_cosmic_freq_fixed_bins_t_1.png \
+    --xlabel "% of samples with long-read depth > 1"\
+    --ylabel "Number of TEs" \
+    --title "COSMIC SVs"
+
+cat data/lr_cosmic_pop_freq_t_5.bed \
+| awk '{print $5/1109;}' \
+| python src/hist.py \
+    --out_file img/lr_te_freq_fixed_bins_t_5.hist.png \
+    --xlabel "% of samples with long-read evidence > 5" \
+    --ylabel "Freq." \
+    --title "COSMIC SVs"
+
+cat data/lr_cosmic_pop_freq_t_1.bed \
+| awk '{print $5/1109;}' \
+| python src/hist.py \
+    --out_file img/lr_te_freq_fixed_bins_t_1.hist.png \
+    --xlabel "% of samples with long-read evidence > 1"  \
+    --ylabel "Freq." \
+    --title "COSMIC SVs"
+```
+
+
+
+
+## STIX TE freq vs depth
 
 | |Log scale | Linear scale |
 |-|----------|--------------|
@@ -243,7 +297,6 @@ python src/hex_plot.py \
 </details>
 
 ### STIX Long-read TE Pop %
-
 | | t > 5 | t > 1 |
 |--------------|-|-|
 | Fixed bins   | ![](img/lr_te_freq_fixed_bins_t_5.png) | ![](img/lr_te_freq_fixed_bins_t_1.png) |
@@ -443,11 +496,26 @@ cat data/lr_cosmic_pop_freq_t_5.bed \
     --log \
     --xlabel "Pop Freq."\
     --ylabel "Freq."
+
+python src/get_pop_freq.py \
+    --t 1 \
+    --lr "data/fig.4b.Cosmic_StructuralVariants_v99_GRCh38.del.slop100.results" \
+> data/lr_cosmic_pop_freq_t_1.bed
+
+cat data/lr_cosmic_pop_freq_t_1.bed \
+| cut -f 5 \
+| python src/hist.py \
+    --out_file img/lr_cosmic_pop_freq_t_1.bed.hist.png \
+    --log \
+    --xlabel "Pop Freq."\
+    --ylabel "Freq." \
+    --title "COSMIC SVs"
 ```
 
 </details>
 
 ![](img/lr_cosmic_pop_freq_t_5.bed.hist.png)
+![](img/lr_cosmic_pop_freq_t_1.bed.hist.png)
 
 ### Short-reads
 
