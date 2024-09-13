@@ -139,6 +139,44 @@ r = 0.80, p=0.00e+00
 </details>
 
 
+### STIX TE Long Read freq vs depth
+
+|Log scale | Linear scale |
+|----------|--------------|
+|![](img/stix_lr_te_depth_v_freq.png) | ![](img/stix_lr_te_depth_v_freq.no_log.png)|
+
+
+<details>
+
+```
+python src/hex_plot.py \
+    --stix data/lr_te_mean_depth.bed \
+    --stix_max 1.0 \
+    --other data/lr_te_pop_freq_t_1.bed \
+    --out img/stix_lr_te_depth_v_freq.png \
+    --height 4 \
+    --width 5 \
+    --xlabel "Num. of samples with STIX long-read depth > 0" \
+    --ylabel "Mean SV evidence depth / coverage " \
+    --title "TE SVs"
+r = 0.91, p=0.00e+00
+
+python src/hex_plot.py \
+    --color-scale 0,1100 \
+    --stix data/lr_1kg_pop_freq_t_5.bed \
+    --stix_max 1.0 \
+    --other data/sr_1kg_pop_freq_t_5.bed \
+    --out img/stix_lr_te_depth_v_freq.no_log.png \
+    --height 4 \
+    --width 5 \
+    --xlabel "Num. of samples with STIX short-read depth > 5" \
+    --ylabel "Num. of samples with STIX long-read depth > 5" \
+    --title "1KG germline SVs"
+
+r = 0.80, p=0.00e+00
+```
+</details>
+
 
 
 ## Data files
@@ -184,16 +222,16 @@ cat data/lr_te_mean_depth.bed \
 | python src/hist.py \
     --out_file img/lr_te_mean_depth.hist.png \
     --log \
-    --xlabel "Pop Freq."\
+    --xlabel "Mean Alt Evidence Depth / Coverage"\
     --ylabel "Freq."
 ```
 <details>
 
 | Experiment | Histogram |
 |------------|-----------|
-| Long Read TE samples with depth > 5 | ![](img/lr_te_pop_freq_t_5.hist.png) |
-| Long Read TE samples with depth > 1 | ![](img/lr_te_pop_freq_t_1.hist.png) |
-| Long Read TE mean sample depth      | ![](img/lr_te_mean_depth.hist.png) | 
+| Long Read, TE SVs, samples with depth > 5 | ![](img/lr_te_pop_freq_t_5.hist.png) |
+| Long Read, TE SVs, samples with depth > 1 | ![](img/lr_te_pop_freq_t_1.hist.png) |
+| Long Read, TE SVs, mean sample depth      | ![](img/lr_te_mean_depth.hist.png) | 
 
 
 </details>
@@ -218,7 +256,11 @@ cat data/lr_1kg_pop_freq_t_5.bed \
     --xlabel "Pop Freq."\
     --ylabel "Freq."
 ```
-![](img/lr_1kg_pop_freq_t_5.hist.png)
+
+| Experiment | Histogram |
+|------------|-----------|
+|Long Read, 1KG SVs, samples with depth > 5 | ![](img/lr_1kg_pop_freq_t_5.hist.png) |
+
 
 #### Cosmic
 ```

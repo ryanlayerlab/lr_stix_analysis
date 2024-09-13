@@ -23,6 +23,10 @@ def str_or_tuple(value):
 def parse_args():
     parser = argparse.ArgumentParser(description="Plot population frequency")
     parser.add_argument("--stix", help="STIX aggregated queries bed", required=True)
+
+    parser.add_argument("--stix_max", type=float, help="Max value for STIX", default=None)
+
+
     parser.add_argument("--other", help="Pop freq comparison bed", required=True)
     parser.add_argument("--color", default="Reds")
     parser.add_argument("--xlabel", default="Other pop freq")
@@ -80,6 +84,7 @@ def plot_data(
     tick_line_width: float,
     axis_line_width: float,
     title: str = None,
+    stix_max: float = None,
 ):
     #label_font_size = 10
     #figwidth = 5
@@ -110,6 +115,9 @@ def plot_data(
         sep="\t",
         names=["chrom", "start", "end", "svtype", "stix_count"],
     )
+
+    if stix_max:
+        stix_df = stix_df[stix_df["stix_count"] <= stix_max]
 
     # for AFs that are -1 (ie missing), we will set them to 0
     other_df = pd.read_csv(
