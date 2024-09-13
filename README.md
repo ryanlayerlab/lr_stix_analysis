@@ -211,11 +211,12 @@ python src/hex_plot.py \
 
 ## Data files
 
-### Long-read population frequency
+### Long-reads
 
 #### TEs
 
 <details>
+
 ```
 python src/get_pop_freq.py \
     --t 5 \
@@ -265,8 +266,6 @@ cat data/lr_te_mean_depth.bed \
 | Long Read, TE SVs, samples with depth > 5 | ![](img/lr_te_pop_freq_t_5.hist.png) |
 | Long Read, TE SVs, samples with depth > 1 | ![](img/lr_te_pop_freq_t_1.hist.png) |
 | Long Read, TE SVs, mean sample depth      | ![](img/lr_te_mean_depth.hist.png) | 
-
-
 
 #### 1KG
 
@@ -318,11 +317,11 @@ cat data/lr_cosmic_pop_freq_t_5.bed \
     --ylabel "Freq."
 ```
 
-</etails>
+</details>
 
 ![](img/lr_cosmic_pop_freq_t_5.bed.hist.png)
 
-### Short-read population frequency
+### Short-reads
 
 #### Sample depth
 
@@ -339,9 +338,9 @@ cat data/sr_sample_depth.txt \
     --ylabel "Freq."
 ```
 
-![](img/sr_sample_depth.hist.png)
-
 </details>
+
+![](img/sr_sample_depth.hist.png)
 
 #### TEs
 
@@ -474,7 +473,7 @@ python src/get_pop_freq.py \
 
 #### HG002 CMRG
 
-### Joint population frequency
+## Joint population frequency
 
 <details>
 
