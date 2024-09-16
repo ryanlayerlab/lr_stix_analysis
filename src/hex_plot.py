@@ -62,6 +62,7 @@ def parse_args():
                         type=int,
                         default=8,
                         help="Axis tick label font size")
+    parser.add_argument("--fignum", type=str, help="Figure number")
 
 
 
@@ -85,6 +86,7 @@ def plot_data(
     axis_line_width: float,
     title: str = None,
     stix_max: float = None,
+    fignum: str = None
 ):
     #label_font_size = 10
     #figwidth = 5
@@ -170,6 +172,12 @@ def plot_data(
                    labelsize=axis_label_size,
                    width=tick_line_width,
                    length=tick_line_length)
+
+    if fignum:
+        ax.annotate(fignum,
+                    xy=(.025, .975), xycoords='figure fraction',
+                    horizontalalignment='left', verticalalignment='top',
+                    fontsize=12)
 
     fig.tight_layout()
     fig.savefig(output, dpi=600)
