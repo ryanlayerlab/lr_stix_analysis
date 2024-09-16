@@ -16,6 +16,15 @@
 - Figure 5C
 - Figure 5D
 
+## Fig 3
+
+| | |
+|-|-|
+| | ![](img/stix_lr_vs_1kg_pop_freq.png) |
+| ![](img/stix_lr_vs_sr_pop_freq.png) | ![](img/stix_lr_hg002_vs_gnomad_pop_freq.png) |
+| | ![](https://img/stix_sr_hg002_vs_gnomad_pop_freq.png) |
+| ![](img/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.png) | ![](img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png) |
+
 
 ## Figures
 
@@ -167,7 +176,7 @@ python src/hex_plot.py \
 python src/hex_plot.py \
     --stix data/lr_hg002_cmrg_pop_freq_t_5.bed \
     --other data/HG002.cmrg.gnomadAF.bed \
-    --out img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png \
+    --out img/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.png \
     --height 4 \
     --width 5 \
     --xlabel "Allele freq. in gnomAD" \
