@@ -31,6 +31,14 @@
 |-|-|
 | | ![](img/lr_cosmic_freq_fixed_bins_t_5.png)
 
+## Fig 5
+
+| | | |
+|-|-|-|
+| | | |
+| | ![Fig 5E](img/lr_te_freq_fixed_bins_t_5.png)| ![Fig 5F](img/stix_lr_te_depth_v_freq.png)|
+| ![Fig 5G](img/stix_lr_te_depth_v_freq.png)| |
+
 ## Figures
 
 ## STIX vs 1KG SV frequency
