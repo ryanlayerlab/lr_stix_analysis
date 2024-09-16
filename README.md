@@ -5,11 +5,16 @@
 - ~~Get STIX output for TE x STIX SR 1KG~~
 - ~~Get STIX output for 1KG SV  x STIX LR 1KG~~
 - ~~Get STIX output for 1KG SV  x STIX SR 1KG~~
-- Get STIX output for COSMIC x STIX LR 1KG
+- ~~Get STIX output for COSMIC x STIX LR 1KG~~
 - Get STIX output for COSMIC x STIX SR 1KG
-- Get STIX output for HG002  x STIX LR 1KG
-- Get STIX output for HG002  x STIX SR 1KG
+- ~~Get STIX output for HG002  x STIX LR 1KG~~
+- ~~Get STIX output for HG002  x STIX SR 1KG~~
 - Get short read sample depths
+- Figure 4A
+- Figure 5A
+- Figure 5B
+- Figure 5C
+- Figure 5D
 
 
 ## Figures
@@ -141,14 +146,34 @@ r = 0.80, p=0.00e+00
 
 ## STIX HG002
 
-| | Long Reads | Short Reads |
+| | Long Reads | Short Reads (DELS)|
 |-|-|-|
-| HG002 all  | | ![](img/stix_sr_hg002_vs_gnomad_pop_freq.png)|
-| HG002 CMRG | | ![](img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png)|
+| HG002 all  | ![](img/stix_sr_hg002_vs_gnomad_pop_freq.png) | ![](img/stix_sr_hg002_vs_gnomad_pop_freq.png)|
+| HG002 CMRG | ![](img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png) | ![](img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png)|
 
 <details>
 
 ```
+python src/hex_plot.py \
+    --stix data/lr_hg002_pop_freq_t_5.bed \
+    --other data/HG002.gnomadAF.bed \
+    --out img/stix_lr_hg002_vs_gnomad_pop_freq.png \
+    --height 4 \
+    --width 5 \
+    --xlabel "Allele freq. in gnomAD" \
+    --ylabel "Num. of samples with STIX long-read depth > 5" \
+    --title "HG002 SVs"
+
+python src/hex_plot.py \
+    --stix data/lr_hg002_cmrg_pop_freq_t_5.bed \
+    --other data/HG002.cmrg.gnomadAF.bed \
+    --out img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png \
+    --height 4 \
+    --width 5 \
+    --xlabel "Allele freq. in gnomAD" \
+    --ylabel "Num. of samples with STIX long-read depth > 5" \
+    --title "HG002 CMRG SVs"
+
 python src/hex_plot.py \
     --stix data/sr_hg002_pop_freq_t_5.bed \
     --other data/HG002.gnomadAF.DEL.bed \
@@ -156,8 +181,8 @@ python src/hex_plot.py \
     --height 4 \
     --width 5 \
     --xlabel "Allele freq. in gnomAD" \
-    --ylabel "Num. of samples with STIX long-read depth > 5" \
-    --title "HG002 SVs"
+    --ylabel "Num. of samples with STIX short-read depth > 5" \
+    --title "HG002 DELs"
 
 python src/hex_plot.py \
     --stix data/sr_hg002_cmrg_pop_freq_t_5.bed \
@@ -166,8 +191,8 @@ python src/hex_plot.py \
     --height 4 \
     --width 5 \
     --xlabel "Allele freq. in gnomAD" \
-    --ylabel "Num. of samples with STIX long-read depth > 5" \
-    --title "HG002 CMRG SVs"
+    --ylabel "Num. of samples with STIX short-read depth > 5" \
+    --title "HG002 CMRG DELs"
 
 ```
 
@@ -416,6 +441,83 @@ cat data/sr_te_pop_freq_t_1.bed \
 ## Data files
 
 ### Long-reads
+
+#### HG002
+
+
+<details>
+
+```
+cat data/GRCh38_HG002-T2TQ100-V1.0_stvar.addID.svafotate.STIXanno_minreads5.slop100.results \
+| python src/get_gnomad_af.py  \
+> data/HG002.gnomadAF.bed
+
+cat data/HG002_GRCh38_difficult_medical_gene_SV_benchmark_v0.01_trusted_SVTYPE.addID.svafotate.slop100.results \
+| python src/get_gnomad_af.py  \
+> data/HG002.cmrg.gnomadAF.bed
+
+python src/get_pop_freq.py \
+    --t 5 \
+    --lr data/GRCh38_HG002-T2TQ100-V1.0_stvar.addID.svafotate.STIXanno_minreads5.slop100.results \
+> data/lr_hg002_pop_freq_t_5.bed
+
+cat data/lr_hg002_pop_freq_t_5.bed \
+| cut -f 5 \
+| python src/hist.py \
+    --out_file img/lr_hg002_pop_freq_t_5.hist.png \
+    --log \
+    --xlabel "Pop Freq."\
+    --ylabel "Freq."
+
+python src/get_pop_freq.py \
+    --t 1 \
+    --lr data/GRCh38_HG002-T2TQ100-V1.0_stvar.addID.svafotate.STIXanno_minreads5.slop100.results \
+> data/lr_hg002_pop_freq_t_1.bed
+
+
+cat data/lr_hg002_pop_freq_t_1.bed \
+| cut -f 5 \
+| python src/hist.py \
+    --out_file img/lr_hg002_pop_freq_t_1.hist.png \
+    --log \
+    --xlabel "Pop Freq."\
+    --ylabel "Freq."
+
+python src/get_pop_freq.py \
+    --t 5 \
+    --lr data/HG002_GRCh38_difficult_medical_gene_SV_benchmark_v0.01_trusted_SVTYPE.addID.svafotate.slop100.results \
+> data/lr_hg002_cmrg_pop_freq_t_5.bed
+
+cat data/lr_hg002_cmrg_pop_freq_t_5.bed \
+| cut -f 5 \
+| python src/hist.py \
+    --out_file img/lr_hg002_cmrg_pop_freq_t_5.hist.png \
+    --log \
+    --xlabel "Pop Freq."\
+    --ylabel "Freq."
+
+python src/get_pop_freq.py \
+    --t 1 \
+    --lr data/HG002_GRCh38_difficult_medical_gene_SV_benchmark_v0.01_trusted_SVTYPE.addID.svafotate.slop100.results \
+> data/lr_hg002_cmrg_pop_freq_t_1.bed
+
+cat data/lr_hg002_cmrg_pop_freq_t_1.bed \
+| cut -f 5 \
+| python src/hist.py \
+    --out_file img/lr_hg002_cmrg_pop_freq_t_1.hist.png \
+    --log \
+    --xlabel "Pop Freq."\
+    --ylabel "Freq."
+```
+
+</details>
+
+| Experiment | Histogram |
+|------------|-----------|
+| Long Read, HG002 SVs, samples with depth > 5 | ![](img/lr_hg002_pop_freq_t_5.hist.png) |
+| Long Read, HG002 SVs, samples with depth > 1 | ![](img/lr_hg002_pop_freq_t_1.hist.png) |
+| Long Read, HG002 CMRG SVs, samples with depth > 5 | ![](img/lr_hg002_cmrg_pop_freq_t_5.hist.png) |
+| Long Read, HG002 CMRG SVs, samples with depth > 1 | ![](img/lr_hg002_cmrg_pop_freq_t_1.hist.png) |
 
 #### TEs
 
