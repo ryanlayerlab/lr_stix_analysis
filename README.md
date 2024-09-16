@@ -148,8 +148,8 @@ r = 0.80, p=0.00e+00
 
 | | Long Reads | Short Reads (DELS)|
 |-|-|-|
-| HG002 all  | ![](img/stix_sr_hg002_vs_gnomad_pop_freq.png) | ![](img/stix_sr_hg002_vs_gnomad_pop_freq.png)|
-| HG002 CMRG | ![](img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png) | ![](img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png)|
+| HG002 all  | ![](img/stix_lr_hg002_vs_gnomad_pop_freq.png) | ![](img/stix_sr_hg002_vs_gnomad_pop_freq.png)|
+| HG002 CMRG | ![](img/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.png) | ![](img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png)|
 
 <details>
 
