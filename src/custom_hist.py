@@ -45,6 +45,7 @@ def get_args():
                         type=int,
                         default=8,
                         help="Axis tick label font size")
+    parser.add_argument("--fignum", type=str, help="Figure number")
 
 
     return parser.parse_args()
@@ -81,7 +82,11 @@ def main():
                    width=args.tick_line_width,
                    length=args.tick_line_length)
 
-
+    if args.fignum:
+        ax.annotate(args.fignum,
+                    xy=(.025, .975), xycoords='figure fraction',
+                    horizontalalignment='left', verticalalignment='top',
+                    fontsize=12)
     fig.tight_layout()
     fig.savefig(args.out_file)
 

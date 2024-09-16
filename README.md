@@ -25,6 +25,11 @@
 | | ![](https://img/stix_sr_hg002_vs_gnomad_pop_freq.png) |
 | ![](img/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.png) | ![](img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png) |
 
+## Fig 4
+
+| | |
+|-|-|
+| | ![](img/lr_cosmic_freq_fixed_bins_t_5.png)
 
 ## Figures
 
