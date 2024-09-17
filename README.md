@@ -35,8 +35,10 @@
 | |Log scale | Linear scale |
 |-|----------|--------------|
 | Long  |![](img/stix_lr_vs_1kg_pop_freq.png) | ![](img/stix_lr_vs_1kg_pop_freq.no_log.png)|
+|       | ![](img/stix_lr_vs_1kg_pop_freq_diff.hist.png) || 
 | Short |![](img/stix_sr_vs_1kg_pop_freq.png) | ![](img/stix_sr_vs_1kg_pop_freq.no_log.png)|
 | Both  |![](img/stix_lr_sr_vs_1kg_pop_freq.png) | ![](img/stix_lr_sr_vs_1kg_pop_freq.no_log.png)|
+
 
 <details>
     
@@ -46,11 +48,21 @@ python src/hex_plot.py \
     --stix data/lr_1kg_pop_freq_t_5.bed \
     --other data/1kg_pop_freq.lr_samples.bed \
     --out img/stix_lr_vs_1kg_pop_freq.png \
+    --merged data/stix_lr_vs_1kg_pop_freq.bed \
     --height 4 \
     --width 5 \
     --xlabel "Num. samples called non-ref by 1KG" \
     --ylabel "Num. of samples with STIX long-read depth > 5" \
     --title "1KG germline SVs"
+
+cat data/stix_lr_vs_1kg_pop_freq.bed\
+| awk '{print ($5-$6)/(($5+$6)/2)}' \
+| python src/hist.py \
+    --out_file img/stix_lr_vs_1kg_pop_freq_diff.hist.png \
+    --xlabel 'Num. non-ref. 1KG samples - Num. sample with STIX evidnce' \
+    --ylabel 'Frequency'
+
+
 
 python src/hex_plot.py \
     --color-scale 0,1100 \
@@ -632,7 +644,7 @@ cut -f 1,2,5,7,12 \
 > data/lr_1kg_staffr_q.bed
 
 python src/hex_plot.py \
-    --stix data/LR_1kg_queries_sampleswise_agg.staffr.bed \
+    --stix data/lr_1kg_staffr_q.q_gt_0.1.bed \
     --other data/1kg_af.bed \
     --out img/staffr_lr_vs_1kg_af_freq.png \
     --merged data/staffr_lr_vs_1kg_af_freq.bed \
@@ -641,8 +653,7 @@ python src/hex_plot.py \
     --xlabel "SV AF by 1KG" \
     --ylabel "SV AF by staffr" \
     --title "1KG germline SVs"
-
-
+r = 0.73, p=0.00e+00
 ```
 
 </details>
