@@ -1,20 +1,9 @@
 # lr_stix_analysis
 
 ## TODO:
-- ~~Get STIX output for TE x STIX LR 1KG~~
-- ~~Get STIX output for TE x STIX SR 1KG~~
-- ~~Get STIX output for 1KG SV  x STIX LR 1KG~~
-- ~~Get STIX output for 1KG SV  x STIX SR 1KG~~
-- ~~Get STIX output for COSMIC x STIX LR 1KG~~
-- Get STIX output for COSMIC x STIX SR 1KG
-- ~~Get STIX output for HG002  x STIX LR 1KG~~
-- ~~Get STIX output for HG002  x STIX SR 1KG~~
 - Get short read sample depths
-- Figure 4A
-- Figure 5A
-- Figure 5B
-- Figure 5C
-- Figure 5D
+- Get CMRG TEs
+- STaffr AF
 
 ## Fig 3
 
@@ -35,7 +24,7 @@
 
 | | | |
 |-|-|-|
-| | | |
+| |![Fig 5B](img/lr_te_pop_freq_total_seen_t_5.png) | ![Fig 5C](img/lr_te_cmrg_pop_freq_total_seen_t_5.png)|
 | ![Fig 5D](img/lr_te_tech_upset_t_5.png)| ![Fig 5E](img/lr_te_freq_fixed_bins_t_5.png)| ![Fig 5F](img/stix_lr_te_depth_v_freq.png)|
 | ![Fig 5G](img/stix_sr_te_depth_v_freq.png)| |
 
@@ -416,6 +405,19 @@ cat data/lr_te_pop_freq_t_1.bed \
     --xlabel "% of samples with long-read evidence > 1"  \
     --ylabel "Freq." \
     --title "TE SVs"
+
+cat  data/lr_te_pop_freq_by_tech_hprc_ont_vienna_t_5.bed \
+| python src/upset_plot.py \
+    --out_file img/lr_te_tech_upset_t_5.png
+
+python src/group_hist.py \
+    --in_file data/lr_te_pop_freq_t_5.bed \
+    --out_file img/lr_te_pop_freq_total_seen_t_5.png \
+    --title "TE SVs" \
+    --xlabel "Length (KB)" \
+    --ylabel "Freq." \
+    --fignum 5B
+
 ```
 
 ### Short-reads
@@ -455,9 +457,6 @@ cat data/sr_te_pop_freq_t_1.bed \
     --ylabel "Freq." \
     --title "TE SVs"
 
-cat  data/lr_te_pop_freq_by_tech_hprc_ont_vienna_t_5.bed \
-| python src/upset_plot.py \
-    --out_file img/lr_te_tech_upset_t_5.png
 ```
 
 
