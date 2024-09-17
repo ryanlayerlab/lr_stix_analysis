@@ -34,6 +34,7 @@ def parse_args():
     parser.add_argument("--color-scale", type=str_or_tuple, default="log",\
                         help="\"log\" or comma separated pair of numbers denoting vmin and vmax")
     parser.add_argument("--output", required=True, help="Output png file")
+    parser.add_argument("--merged", required=True, help="Output merged bed file")
     parser.add_argument('--height', type=int, help="The height of the histogram", default=4)
     parser.add_argument('--width', type=int, help="The width of the histogram", default=4)
     parser.add_argument('--title', type=str, help="Plot title")
@@ -86,7 +87,8 @@ def plot_data(
     axis_line_width: float,
     title: str = None,
     stix_max: float = None,
-    fignum: str = None
+    fignum: str = None,
+    merged: str = None
 ):
     #label_font_size = 10
     #figwidth = 5
@@ -130,6 +132,9 @@ def plot_data(
     other_df["other_count"] = other_df["other_count"].apply(lambda x: 0 if x == -1 else x)
 
     merged_df = pd.merge(stix_df, other_df, on=["chrom", "start", "end", "svtype"])
+
+    if merged:
+        merged_df.to_csv(merged, sep="\t", index=False, header=False)
 
     fig, ax = plt.subplots(figsize=(width, height))
     #plt.subplots_adjust(hspace=0.0)

@@ -625,6 +625,24 @@ cat data/lr_1kg_pop_freq_t_5.bed \
     --log \
     --xlabel "Pop Freq."\
     --ylabel "Freq."
+
+cat data/LR_1kg_queries_sampleswise_agg.staffr.bed \
+cut -f 1,2,5,7,12 \
+| tail -n +2 \
+> data/lr_1kg_staffr_q.bed
+
+python src/hex_plot.py \
+    --stix data/LR_1kg_queries_sampleswise_agg.staffr.bed \
+    --other data/1kg_af.bed \
+    --out img/staffr_lr_vs_1kg_af_freq.png \
+    --merged data/staffr_lr_vs_1kg_af_freq.bed \
+    --height 4 \
+    --width 5 \
+    --xlabel "SV AF by 1KG" \
+    --ylabel "SV AF by staffr" \
+    --title "1KG germline SVs"
+
+
 ```
 
 </details>
@@ -632,6 +650,7 @@ cat data/lr_1kg_pop_freq_t_5.bed \
 | Experiment | Histogram |
 |------------|-----------|
 |Long Read, 1KG SVs, samples with depth > 5 | ![](img/lr_1kg_pop_freq_t_5.hist.png) |
+|staffr af with Long Read, 1KG SVs, samples with depth > 5 | ![](img/staffr_lr_vs_1kg_af_freq.png) |
 
 
 #### Cosmic
