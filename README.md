@@ -24,7 +24,7 @@
 
 | | | |
 |-|-|-|
-| |![Fig 5B](img/lr_te_pop_freq_total_seen_t_5.png) | ![Fig 5C](img/lr_te_cmrg_pop_freq_total_seen_t_5.png)|
+| |![Fig 5B](img/lr_te_pop_freq_total_seen_t_5.png) | |
 | ![Fig 5D](img/lr_te_tech_upset_t_5.png)| ![Fig 5E](img/lr_te_freq_fixed_bins_t_5.png)| ![Fig 5F](img/stix_lr_te_depth_v_freq.png)|
 | ![Fig 5G](img/stix_sr_te_depth_v_freq.png)| |
 
