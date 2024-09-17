@@ -36,7 +36,7 @@
 | | | |
 |-|-|-|
 | | | |
-| | ![Fig 5E](img/lr_te_freq_fixed_bins_t_5.png)| ![Fig 5F](img/stix_lr_te_depth_v_freq.png)|
+| ![Fig 5D](img/lr_te_tech_upset_t_5.png)| ![Fig 5E](img/lr_te_freq_fixed_bins_t_5.png)| ![Fig 5F](img/stix_lr_te_depth_v_freq.png)|
 | ![Fig 5G](img/stix_sr_te_depth_v_freq.png)| |
 
 ## Figures
@@ -454,6 +454,10 @@ cat data/sr_te_pop_freq_t_1.bed \
     --xlabel "% of samples with short-read evidence > 1"  \
     --ylabel "Freq." \
     --title "TE SVs"
+
+cat  data/lr_te_pop_freq_by_tech_hprc_ont_vienna_t_5.bed \
+| python src/upset_plot.py \
+    --out_file img/lr_te_tech_upset_t_5.png
 ```
 
 
@@ -546,6 +550,11 @@ cat data/lr_hg002_cmrg_pop_freq_t_1.bed \
 <details>
 
 ```
+python src/get_pop_freq_by_tech.py \
+    --t 5 \
+    --lr data/02.3.MosiacTEs.unique.query.final_intersected.slop100.results \
+> data/lr_te_pop_freq_by_tech_hprc_ont_vienna_t_5.bed
+
 python src/get_pop_freq.py \
     --t 5 \
     --lr data/02.3.MosiacTEs.unique.query.final_intersected.slop100.results \
