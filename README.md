@@ -58,10 +58,66 @@ python src/hex_plot.py \
 cat data/stix_lr_vs_1kg_pop_freq.bed\
 | awk '{print ($5-$6)/(($5+$6)/2)}' \
 | python src/hist.py \
+    --bins 50 \
     --out_file img/stix_lr_vs_1kg_pop_freq_diff.hist.png \
-    --xlabel 'Num. non-ref. 1KG samples - Num. sample with STIX evidnce' \
+    --xlabel '% diff in non-ref and STIX long-read depth counts' \
     --ylabel 'Frequency'
 
+cat stix_lr_vs_1kg_pop_freq.bed \
+| wc -l
+   70144
+
+cat data/stix_lr_vs_1kg_pop_freq.bed | cut -f 4 | sort | uniq -c | sort -nr
+52479 DEL
+17214 DUP
+ 294 INV
+ 157 INS
+
+cat data/stix_lr_vs_1kg_pop_freq.bed | awk '{print $3-$2}' | median
+    626,467
+
+cat data/stix_lr_vs_1kg_pop_freq.bed \
+| awk '{OFS="\t"; print $0,($5-$6)/(($5+$6)/2)}' \
+| awk '$7<=-1'\
+| awk '{print $3-$2}'\
+| median
+    271,216
+
+cat data/stix_lr_vs_1kg_pop_freq.bed \
+| awk '{OFS="\t"; print $0,($5-$6)/(($5+$6)/2)}' \
+| awk '$7>=1'\
+| awk '{print $3-$2}'\
+| median
+    6113,3476
+
+
+cat data/stix_lr_vs_1kg_pop_freq.bed  | awk '{OFS="\t"; print $0,($5-$6)/(($5+$6)/2)}'  | awk '$7<=-1' | wc -l
+    7680
+
+calc 7680/70144
+    0.109489051094891
+
+cat data/stix_lr_vs_1kg_pop_freq.bed  | awk '{OFS="\t"; print $0,($5-$6)/(($5+$6)/2)}'  | awk '$7>=1' | wc -l
+   15789
+
+calc 15789/70144
+    0.225094092153285
+
+cat data/stix_lr_vs_1kg_pop_freq.bed \
+ | awk '{OFS="\t"; print $0,($5-$6)/(($5+$6)/2)}' \
+ | awk '$7>-1 && $7<1' \
+ | wc -l
+   46675
+
+calc 46675/70144
+   0.665416856751825
+
+cat data/stix_lr_vs_1kg_pop_freq.bed \
+| awk '{OFS="\t"; print $0,($5-$6)/(($5+$6)/2)}' \
+| awk '$7>-1 && $7<1'\
+| cut -f 7 
+| mean
+0.0215880195354463,0.305436256954978
 
 
 python src/hex_plot.py \
@@ -84,11 +140,22 @@ python src/hex_plot.py \
     --stix data/sr_1kg_pop_freq_t_5.bed \
     --other data/1kg_pop_freq.sr_samples.bed \
     --out img/stix_sr_vs_1kg_pop_freq.png \
+    --merged data/stix_sr_vs_1kg_pop_freq.bed \
     --height 4 \
     --width 5 \
     --xlabel "Num. samples called non-ref by 1KG" \
     --ylabel "Num. of samples with STIX short-read depth > 5" \
     --title "1KG germline SVs"
+
+cat data/stix_sr_vs_1kg_pop_freq.bed \
+| awk '$5+$6 > 0' \
+| awk '{print ($5-$6)/(($5+$6)/2)}' \
+| python src/hist.py \
+    --bins 50 \
+    --out_file img/stix_sr_vs_1kg_pop_freq_diff.hist.png \
+    --xlabel '% diff in non-ref and STIX short-read depth counts' \
+    --ylabel 'Frequency'
+
 
 python src/hex_plot.py \
     --color-scale 0,2504 \
@@ -145,6 +212,7 @@ python src/hex_plot.py \
     --stix data/lr_1kg_pop_freq_t_5.bed \
     --other data/sr_1kg_pop_freq_t_5.bed \
     --out img/stix_lr_vs_sr_pop_freq.png \
+    --merged data/stix_lr_vs_sr_pop_freq.bed \
     --height 4 \
     --width 5 \
     --xlabel "Num. of samples with STIX short-read depth > 5" \
@@ -181,11 +249,57 @@ python src/hex_plot.py \
     --stix data/lr_hg002_pop_freq_t_5.bed \
     --other data/HG002.gnomadAF.bed \
     --out img/stix_lr_hg002_vs_gnomad_pop_freq.png \
+    --merged data/stix_lr_hg002_vs_gnomad_pop_freq.bed \
     --height 4 \
     --width 5 \
     --xlabel "Allele freq. in gnomAD" \
     --ylabel "Num. of samples with STIX long-read depth > 5" \
     --title "HG002 SVs"
+
+cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | wc -l
+   66822
+
+cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | awk '$5>0' | wc -l
+   35970
+
+calc 35970/66822
+    0.53829577085391
+
+cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | cut -f 4 | sort | uniq -c
+28307 DEL
+38515 INS
+
+cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | awk '$5>0' | cut -f 4 | sort | uniq -c
+16311 DEL
+19659 INS
+
+cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | awk '$6>0' | cut -f 4 | sort | uniq -c
+13428 DEL
+3952 INS
+
+calc 16441/38515
+    0.426872647020641
+
+calc 3952/38515
+    0.10260937297157
+
+
+
+cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | awk '$6>0' | wc -l
+   17380
+
+calc 17380/66822
+    0.260093981024214
+
+cat data/stix_sr_hg002_vs_gnomad_pop_freq.bed | awk '$5>0' | wc -l
+   31506
+
+calc 31506/66822
+    0.471491424979797
+
+
+
+
 
 python src/hex_plot.py \
     --stix data/lr_hg002_cmrg_pop_freq_t_5.bed \
@@ -201,6 +315,7 @@ python src/hex_plot.py \
     --stix data/sr_hg002_pop_freq_t_5.bed \
     --other data/HG002.gnomadAF.DEL.bed \
     --out img/stix_sr_hg002_vs_gnomad_pop_freq.png \
+    --merged data/stix_sr_hg002_vs_gnomad_pop_freq.bed \
     --height 4 \
     --width 5 \
     --xlabel "Allele freq. in gnomAD" \
@@ -643,15 +758,23 @@ cut -f 1,2,5,7,12 \
 | tail -n +2 \
 > data/lr_1kg_staffr_q.bed
 
+cat data/lr_1kg_staffr_q.bed \
+| awk '$5>0.1' \
+> data/lr_1kg_staffr_q.q_gt_0.1.bed
+
+cat data/1kg_af.bed \
+| awk '$5>0.1' \
+> data/1kg_af.af_gt_0.1.bed
+
 python src/hex_plot.py \
     --stix data/lr_1kg_staffr_q.q_gt_0.1.bed \
-    --other data/1kg_af.bed \
+    --other data/1kg_af.af_gt_0.1.bed \
     --out img/staffr_lr_vs_1kg_af_freq.png \
     --merged data/staffr_lr_vs_1kg_af_freq.bed \
     --height 4 \
     --width 5 \
     --xlabel "SV AF by 1KG" \
-    --ylabel "SV AF by staffr" \
+    --ylabel "SV AF by long-read staffr" \
     --title "1KG germline SVs"
 r = 0.73, p=0.00e+00
 ```
@@ -752,7 +875,6 @@ cat data/sr_te_pop_freq_t_1.bed \
     --xlabel "Pop Freq."\
     --ylabel "Freq."
 
-
 python src/get_depth_stats.py \
     --stat mean \
     --sr "data/SR_STIX_TE_queries/queries.*.DEL.bed" \
@@ -832,6 +954,37 @@ cat data/sr_1kg_pop_freq_t_5.bed \
     --log \
     --xlabel "Pop Freq."\
     --ylabel "Freq."
+
+cat data/queriesSR.DEL.staffr.bed \
+| cut -f 1,2,3,4,9 \
+| tail -n +2 \
+> data/sr_1kg_staffr_q.bed
+
+cat data/queriesSR.DUP.staffr.bed \
+| cut -f 1,2,3,4,9 \
+| tail -n +2 \
+>> data/sr_1kg_staffr_q.bed
+
+cat data/queriesSR.INV.staffr.bed \
+| cut -f 1,2,3,4,9 \
+| tail -n +2 \
+>> data/sr_1kg_staffr_q.bed
+
+cat data/sr_1kg_staffr_q.bed \
+| awk '$5>0.1' \
+> data/sr_1kg_staffr_q.q_gt_0.1.bed
+
+python src/hex_plot.py \
+     --stix data/sr_1kg_staffr_q.q_gt_0.1.bed \
+     --other data/1kg_af.af_gt_0.1.bed \
+     --out img/staffr_sr_vs_1kg_af_freq.png \
+     --merged data/staffr_sr_vs_1kg_af_freq.bed \
+     --height 4 \
+     --width 5 \
+     --xlabel "SV AF by 1KG" \
+     --ylabel "SV AF by short-read staffr" \
+     --title "1KG germline SVs"
+r = 0.15, p=4.72e-39
 ```
 
 </details>

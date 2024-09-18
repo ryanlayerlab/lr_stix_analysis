@@ -24,12 +24,12 @@ rule fig_5G:
             --stix_max 1.0 \
             --other data/sr_te_pop_freq_t_1.bed \
             --out img/stix_sr_te_depth_v_freq.png \
+            --merged data/stix_sr_te_depth_v_freq.bed \
             --height 4 \
             --width 5 \
             --xlabel "Num. of samples with STIX short-read depth > 0" \
             --ylabel "Mean SV evidence depth / coverage " \
-            --title "TE SVs" \
-            --fignum 5G
+            --title "TE SVs"
         """
 
 rule fig_5F:
@@ -45,12 +45,12 @@ rule fig_5F:
             --stix_max 1.0 \
             --other data/lr_te_pop_freq_t_1.bed \
             --out img/stix_lr_te_depth_v_freq.png \
+            --merged data/stix_lr_te_depth_v_freq.bed \
             --height 4 \
             --width 5 \
             --xlabel "Num. of samples with STIX long-read depth > 0" \
             --ylabel "Mean SV evidence depth / coverage " \
-            --title "TE SVs" \
-            --fignum 5F
+            --title "TE SVs" 
         """
 
 rule fig_5E:
@@ -85,12 +85,12 @@ rule fig_3H:
             --stix data/sr_hg002_cmrg_pop_freq_t_5.bed \
             --other data/HG002.cmrg.gnomadAF.DEL.bed \
             --out img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png \
+            --merged data/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.bed \
             --height 4 \
             --width 5 \
             --xlabel "Allele freq. in gnomAD" \
-            --ylabel "Num. of samples with STIX short-read depth > 5" \
-            --title "HG002 CMRG DELs" \
-            --fignum 3H
+            --ylabel "Num. of samples with STIX short-read depth => 5" \
+            --title "HG002 CMRG DELs" 
         """
 
 rule fig_3G:
@@ -105,12 +105,12 @@ rule fig_3G:
             --stix data/lr_hg002_cmrg_pop_freq_t_5.bed \
             --other data/HG002.cmrg.gnomadAF.bed \
             --out img/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.png \
+            --merged data/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.bed \
             --height 4 \
             --width 5 \
             --xlabel "Allele freq. in gnomAD" \
-            --ylabel "Num. of samples with STIX long-read depth > 5" \
-            --title "HG002 CMRG SVs" \
-            --fignum 3G
+            --ylabel "Num. of samples with STIX long-read depth => 5" \
+            --title "HG002 CMRG SVs" 
         """
 
 rule fig_3F:
@@ -125,12 +125,12 @@ rule fig_3F:
             --stix data/sr_hg002_pop_freq_t_5.bed \
             --other data/HG002.gnomadAF.DEL.bed \
             --out img/stix_sr_hg002_vs_gnomad_pop_freq.png \
+            --merged data/stix_sr_hg002_vs_gnomad_pop_freq.bed \
             --height 4 \
             --width 5 \
             --xlabel "Allele freq. in gnomAD" \
-            --ylabel "Num. of samples with STIX short-read depth > 5" \
-            --title "HG002 DELs" \
-            --fignum 3F
+            --ylabel "Num. of samples with STIX short-read depth => 5" \
+            --title "HG002 DELs" 
         """
 
 rule fig_3D:
@@ -145,12 +145,12 @@ rule fig_3D:
             --stix data/lr_hg002_pop_freq_t_5.bed \
             --other data/HG002.gnomadAF.bed \
             --out img/stix_lr_hg002_vs_gnomad_pop_freq.png \
+            --merged data/stix_lr_hg002_vs_gnomad_pop_freq.bed \
             --height 4 \
             --width 5 \
             --xlabel "Allele freq. in gnomAD" \
-            --ylabel "Num. of samples with STIX long-read depth > 5" \
-            --title "HG002 SVs" \
-            --fignum 3D
+            --ylabel "Num. of samples with STIX long-read depth => 5" \
+            --title "HG002 SVs"
         """
 
 rule fig_3C:
@@ -165,12 +165,12 @@ rule fig_3C:
             --stix data/lr_1kg_pop_freq_t_5.bed \
             --other data/sr_1kg_pop_freq_t_5.bed \
             --out img/stix_lr_vs_sr_pop_freq.png \
+            --merged data/stix_lr_vs_sr_pop_freq.bed \
             --height 4 \
             --width 5 \
-            --xlabel "Num. of samples with STIX short-read depth > 5" \
-            --ylabel "Num. of samples with STIX long-read depth > 5" \
-            --title "1KG germline SVs" \
-            --fignum 3C
+            --xlabel "Num. of samples with STIX short-read depth => 5" \
+            --ylabel "Num. of samples with STIX long-read depth => 5" \
+            --title "1KG germline SVs"
         """
 
 rule fig_3B:
@@ -185,10 +185,10 @@ rule fig_3B:
             --stix data/lr_1kg_pop_freq_t_5.bed \
             --other data/1kg_pop_freq.lr_samples.bed \
             --out img/stix_lr_vs_1kg_pop_freq.png \
+            --merged data/stix_lr_vs_1kg_pop_freq.bed \
             --height 4 \
             --width 5 \
             --xlabel "Num. samples called non-ref by 1KG" \
-            --ylabel "Num. of samples with STIX long-read depth > 5" \
-            --title "1KG germline SVs" \
-            --fignum 3B
+            --ylabel "Num. of samples with STIX long-read depth => 5" \
+            --title "1KG germline SVs"
         """
