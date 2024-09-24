@@ -29,7 +29,8 @@ rule fig_5G:
             --width 5 \
             --xlabel "Num. of samples with STIX short-read depth > 0" \
             --ylabel "Mean SV evidence depth / coverage " \
-            --title "TE SVs"
+            --title "TE SVs" \
+            --color "Greens"
         """
 
 rule fig_5F:
@@ -50,7 +51,8 @@ rule fig_5F:
             --width 5 \
             --xlabel "Num. of samples with STIX long-read depth > 0" \
             --ylabel "Mean SV evidence depth / coverage " \
-            --title "TE SVs" 
+            --title "TE SVs" \
+            --color "Greens"
         """
 
 rule fig_5E:
@@ -73,84 +75,165 @@ rule fig_4B:
         bash src/make_fig4b.sh
         """
 
+rule filter_hg002_variants_by_svlen:
+    "Filter hg002 variants by svlen >=50"
+    input:
+        hg002_vcf = 'data/GRCh38_HG002-T2TQ100-V1.0_stvar.vcf.gz',
+        hg002_cmrg_vcf = 'data/HG002_GRCh38_difficult_medical_gene_SV_benchmark_v0.01_trusted_SVTYPE.addID.vcf',
+        gnomad_lr_bed = 'data/HG002.gnomadAF.bed',
+        gnomad_lr_cmrg_bed = 'data/HG002.cmrg.gnomadAF.bed',
+        gnomad_sr_bed = 'data/HG002.gnomadAF.DEL.bed',
+        gnomad_sr_cmrg_bed = 'data/HG002.cmrg.gnomadAF.DEL.bed',
+        stix_lr_bed = 'data/lr_hg002_pop_freq_t_5.bed',
+        stix_sr_bed = 'data/sr_hg002_pop_freq_t_5.bed',
+        stix_lr_cmrg_bed = 'data/lr_hg002_cmrg_pop_freq_t_5.bed',
+        stix_sr_cmrg_bed = 'data/sr_hg002_cmrg_pop_freq_t_5.bed',
+
+    output:
+        gnomad_lr_bed = 'data/HG002.gnomadAF.svlengte50.bed',
+        gnomad_lr_cmrg_bed = 'data/HG002.cmrg.gnomadAF.svlengte50.bed',
+        gnomad_sr_bed = 'data/HG002.gnomadAF.DEL.svlengte50.bed',
+        gnomad_sr_cmrg_bed = 'data/HG002.cmrg.gnomadAF.DEL.svlengte50.bed',
+        stix_lr_bed = 'data/lr_hg002_pop_freq_t_5.svlengte50.bed',
+        stix_sr_bed = 'data/sr_hg002_pop_freq_t_5.svlengte50.bed',
+        stix_lr_cmrg_bed = 'data/lr_hg002_cmrg_pop_freq_t_5.svlengte50.bed',
+        stix_sr_cmrg_bed = 'data/sr_hg002_cmrg_pop_freq_t_5.svlengte50.bed',
+
+    shell:
+        """
+        bash src/filter_hg002_by_svlen.sh \
+            -b {input.gnomad_lr_bed} \
+            -v {input.hg002_vcf} \
+            -o {output.gnomad_lr_bed}
+        bash src/filter_hg002_by_svlen.sh \
+            -b {input.gnomad_lr_cmrg_bed} \
+            -v {input.hg002_cmrg_vcf} \
+            -o {output.gnomad_lr_cmrg_bed}
+        bash src/filter_hg002_by_svlen.sh \
+            -b {input.gnomad_sr_bed} \
+            -v {input.hg002_vcf} \
+            -o {output.gnomad_sr_bed}
+        bash src/filter_hg002_by_svlen.sh \
+            -b {input.gnomad_sr_cmrg_bed} \
+            -v {input.hg002_cmrg_vcf} \
+            -o {output.gnomad_sr_cmrg_bed}
+        bash src/filter_hg002_by_svlen.sh \
+            -b {input.stix_lr_bed} \
+            -v {input.hg002_vcf} \
+            -o {output.stix_lr_bed}
+        bash src/filter_hg002_by_svlen.sh \
+            -b {input.stix_sr_bed} \
+            -v {input.hg002_vcf} \
+            -o {output.stix_sr_bed}
+        bash src/filter_hg002_by_svlen.sh \
+            -b {input.stix_lr_cmrg_bed} \
+            -v {input.hg002_cmrg_vcf} \
+            -o {output.stix_lr_cmrg_bed}
+        bash src/filter_hg002_by_svlen.sh \
+            -b {input.stix_sr_cmrg_bed} \
+            -v {input.hg002_cmrg_vcf} \
+            -o {output.stix_sr_cmrg_bed}
+        """
+
+
 rule fig_3H:
     input:
-        'data/sr_hg002_cmrg_pop_freq_t_5.bed',
-        'data/HG002.cmrg.gnomadAF.DEL.bed'
+        # 'data/sr_hg002_cmrg_pop_freq_t_5.bed',
+        # 'data/HG002.cmrg.gnomadAF.DEL.bed'
+        stix_sr_cmrg_bed = rules.filter_hg002_variants_by_svlen.output.stix_sr_cmrg_bed,
+        gnomad_sr_cmrg_bed = rules.filter_hg002_variants_by_svlen.output.gnomad_sr_cmrg_bed
     output:
-        'img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png'
+        plot = 'img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png',
+        merged_bed = 'data/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.bed'
     shell:
         """
         python src/hex_plot.py \
-            --stix data/sr_hg002_cmrg_pop_freq_t_5.bed \
-            --other data/HG002.cmrg.gnomadAF.DEL.bed \
-            --out img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png \
-            --merged data/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.bed \
+            --stix {input.stix_sr_cmrg_bed} \
+            --other {input.gnomad_sr_cmrg_bed} \
+            --out {output.plot} \
+            --merged {output.merged_bed} \
             --height 4 \
             --width 5 \
             --xlabel "Allele freq. in gnomAD" \
             --ylabel "Num. of samples with STIX short-read depth => 5" \
-            --title "HG002 CMRG DELs" 
+            --title "HG002 CMRG DELs"  \
+            --color-scale 0,5 \
+            --color "Blues"
         """
 
 rule fig_3G:
     input:
-        'data/lr_hg002_cmrg_pop_freq_t_5.bed',
-        'data/HG002.cmrg.gnomadAF.bed'
+        # 'data/lr_hg002_cmrg_pop_freq_t_5.bed',
+        # 'data/HG002.cmrg.gnomadAF.bed'
+        stix_lr_cmrg_bed = rules.filter_hg002_variants_by_svlen.output.stix_lr_cmrg_bed,
+        gnomad_lr_cmrg_bed = rules.filter_hg002_variants_by_svlen.output.gnomad_lr_cmrg_bed
     output:
-        'img/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.png'
+        plot = 'img/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.png',
+        merged_bed = 'data/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.bed'
     shell:
         """
         python src/hex_plot.py \
-            --stix data/lr_hg002_cmrg_pop_freq_t_5.bed \
-            --other data/HG002.cmrg.gnomadAF.bed \
-            --out img/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.png \
-            --merged data/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.bed \
+            --stix {input.stix_lr_cmrg_bed} \
+            --other {input.gnomad_lr_cmrg_bed} \
+            --out {output.plot} \
+            --merged {output.merged_bed} \
             --height 4 \
             --width 5 \
             --xlabel "Allele freq. in gnomAD" \
             --ylabel "Num. of samples with STIX long-read depth => 5" \
-            --title "HG002 CMRG SVs" 
+            --title "HG002 CMRG SVs" \
+            --color-scale 0,5 \
+            --color "Blues"
         """
+
 
 rule fig_3F:
     input:
-        'data/sr_hg002_pop_freq_t_5.bed',
-        'data/HG002.gnomadAF.DEL.bed'
+        # sr_stix_bed = 'data/sr_hg002_pop_freq_t_5.bed',
+        # gnomad_bed = 'data/HG002.gnomadAF.DEL.bed'
+        stix_sr_bed = rules.filter_hg002_variants_by_svlen.output.stix_sr_bed,
+        gnomad_sr_bed = rules.filter_hg002_variants_by_svlen.output.gnomad_sr_bed
     output:
-        'img/stix_sr_hg002_vs_gnomad_pop_freq.png'
+        plot = 'img/stix_sr_hg002_vs_gnomad_pop_freq.png',
+        merged_bed = 'data/stix_sr_hg002_vs_gnomad_pop_freq.bed'
     shell:
         """
         python src/hex_plot.py \
-            --stix data/sr_hg002_pop_freq_t_5.bed \
-            --other data/HG002.gnomadAF.DEL.bed \
-            --out img/stix_sr_hg002_vs_gnomad_pop_freq.png \
-            --merged data/stix_sr_hg002_vs_gnomad_pop_freq.bed \
+            --stix {input.stix_sr_bed} \
+            --other {input.gnomad_sr_bed} \
+            --out {output.plot} \
+            --merged {output.merged_bed} \
             --height 4 \
             --width 5 \
             --xlabel "Allele freq. in gnomAD" \
             --ylabel "Num. of samples with STIX short-read depth => 5" \
-            --title "HG002 DELs" 
+            --title "HG002 DELs" \
+            --color "Blues"
         """
+
 
 rule fig_3D:
     input:
-        'data/lr_hg002_pop_freq_t_5.bed',
-        'data/HG002.gnomadAF.bed',
+        # 'data/lr_hg002_pop_freq_t_5.bed',
+        # 'data/HG002.gnomadAF.bed',
+        stix_lr_bed = rules.filter_hg002_variants_by_svlen.output.stix_lr_bed,
+        gnomad_lr_bed = rules.filter_hg002_variants_by_svlen.output.gnomad_lr_bed,
     output:
-        'img/stix_lr_hg002_vs_gnomad_pop_freq.png'
+        plot = 'img/stix_lr_hg002_vs_gnomad_pop_freq.png',
+        merged_bed = 'data/stix_lr_hg002_vs_gnomad_pop_freq.bed'
     shell:
         """
         python src/hex_plot.py \
-            --stix data/lr_hg002_pop_freq_t_5.bed \
-            --other data/HG002.gnomadAF.bed \
-            --out img/stix_lr_hg002_vs_gnomad_pop_freq.png \
-            --merged data/stix_lr_hg002_vs_gnomad_pop_freq.bed \
+            --stix {input.stix_lr_bed} \
+            --other {input.gnomad_lr_bed} \
+            --out {output.plot} \
+            --merged {output.merged_bed} \
             --height 4 \
             --width 5 \
             --xlabel "Allele freq. in gnomAD" \
             --ylabel "Num. of samples with STIX long-read depth => 5" \
-            --title "HG002 SVs"
+            --title "HG002 SVs" \
+            --color "Blues"
         """
 
 rule fig_3C:
