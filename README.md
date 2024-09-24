@@ -272,18 +272,25 @@ cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | cut -f 4 | sort | uniq -c
 cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | awk '$5>0' | cut -f 4 | sort | uniq -c
 16311 DEL
 19659 INS
+calc 16311/28307
+    0.576217896633342
+calc 19659/38515
+    0.510424509931196
+
+cat data/stix_sr_hg002_vs_gnomad_pop_freq.bed | wc -l
+35683
+cat data/stix_sr_hg002_vs_gnomad_pop_freq.bed | awk '$5>0' | cut -f 4 | sort | uniq -c
+31506 DEL
+calc 31506/35683
+    0.882941456716083
 
 cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | awk '$6>0' | cut -f 4 | sort | uniq -c
 13428 DEL
 3952 INS
-
-calc 16441/38515
-    0.426872647020641
-
+calc 13428/28307
+    0.474370297099657
 calc 3952/38515
     0.10260937297157
-
-
 
 cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | awk '$6>0' | wc -l
    17380
@@ -297,14 +304,11 @@ cat data/stix_sr_hg002_vs_gnomad_pop_freq.bed | awk '$5>0' | wc -l
 calc 31506/66822
     0.471491424979797
 
-
-
-
-
 python src/hex_plot.py \
     --stix data/lr_hg002_cmrg_pop_freq_t_5.bed \
     --other data/HG002.cmrg.gnomadAF.bed \
     --out img/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.png \
+    --merged data/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.bed \
     --height 4 \
     --width 5 \
     --xlabel "Allele freq. in gnomAD" \
@@ -326,11 +330,25 @@ python src/hex_plot.py \
     --stix data/sr_hg002_cmrg_pop_freq_t_5.bed \
     --other data/HG002.cmrg.gnomadAF.DEL.bed \
     --out img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png \
+    --merged data/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.bed \
     --height 4 \
     --width 5 \
     --xlabel "Allele freq. in gnomAD" \
     --ylabel "Num. of samples with STIX short-read depth > 5" \
     --title "HG002 CMRG DELs"
+
+cat data/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.bed | wc -l
+     218
+cat data/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.bed | awk '$6>0' | wc -l
+      69
+cat data/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.bed | awk '$5>0' | wc -l
+     218
+cat data/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.bed | awk '$5>0' | wc -l
+      97
+calc 69/218
+0.31651376146789
+calc 91/218
+0.41743119266055
 
 ```
 
@@ -542,9 +560,7 @@ python src/group_hist.py \
     --out_file img/lr_te_pop_freq_total_seen_t_5.png \
     --title "TE SVs" \
     --xlabel "Length (KB)" \
-    --ylabel "Freq." \
-    --fignum 5B
-
+    --ylabel "Freq." 
 ```
 
 ### Short-reads
@@ -956,6 +972,7 @@ cat data/sr_1kg_pop_freq_t_5.bed \
     --ylabel "Freq."
 
 cat data/queriesSR.DEL.staffr.bed \
+| awk '$9>30 && $9<40' \ 
 | cut -f 1,2,3,4,9 \
 | tail -n +2 \
 > data/sr_1kg_staffr_q.bed
