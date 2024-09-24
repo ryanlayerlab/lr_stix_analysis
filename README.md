@@ -245,25 +245,29 @@ r = 0.80, p=0.00e+00
 <details>
 
 ```
+cat data/lr_hg002_pop_freq_t_5.bed \
+| awk '$4=="INS" || $3-$2>=50' \
+> data/lr_hg002_pop_freq_t_5.len_gte_50.bed
+
 python src/hex_plot.py \
-    --stix data/lr_hg002_pop_freq_t_5.bed \
+    --stix data/lr_hg002_pop_freq_t_5.len_gte_50.bed \
     --other data/HG002.gnomadAF.bed \
     --out img/stix_lr_hg002_vs_gnomad_pop_freq.png \
     --merged data/stix_lr_hg002_vs_gnomad_pop_freq.bed \
     --height 4 \
     --width 5 \
     --xlabel "Allele freq. in gnomAD" \
-    --ylabel "Num. of samples with STIX long-read depth > 5" \
+    --ylabel "Num. of samples with STIX long-read depth => 5" \
     --title "HG002 SVs"
 
 cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | wc -l
-   66822
+   10647
 
 cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | awk '$5>0' | wc -l
-   35970
+   10402
 
-calc 35970/66822
-    0.53829577085391
+calc 10402/10647
+    0.976988823142669
 
 cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | cut -f 4 | sort | uniq -c
 28307 DEL
@@ -281,7 +285,7 @@ cat data/stix_sr_hg002_vs_gnomad_pop_freq.bed | wc -l
 35683
 cat data/stix_sr_hg002_vs_gnomad_pop_freq.bed | awk '$5>0' | cut -f 4 | sort | uniq -c
 31506 DEL
-calc 31506/35683
+calc 31506/35683 \
     0.882941456716083
 
 cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | awk '$6>0' | cut -f 4 | sort | uniq -c
@@ -313,7 +317,9 @@ python src/hex_plot.py \
     --width 5 \
     --xlabel "Allele freq. in gnomAD" \
     --ylabel "Num. of samples with STIX long-read depth > 5" \
-    --title "HG002 CMRG SVs"
+    --title "HG002 CMRG SVs" \
+    --color-scale 0,5 \
+    --color Blues
 
 python src/hex_plot.py \
     --stix data/sr_hg002_pop_freq_t_5.bed \
@@ -324,7 +330,8 @@ python src/hex_plot.py \
     --width 5 \
     --xlabel "Allele freq. in gnomAD" \
     --ylabel "Num. of samples with STIX short-read depth > 5" \
-    --title "HG002 DELs"
+    --title "HG002 DELs" \
+    --color Blues
 
 python src/hex_plot.py \
     --stix data/sr_hg002_cmrg_pop_freq_t_5.bed \
@@ -335,7 +342,9 @@ python src/hex_plot.py \
     --width 5 \
     --xlabel "Allele freq. in gnomAD" \
     --ylabel "Num. of samples with STIX short-read depth > 5" \
-    --title "HG002 CMRG DELs"
+    --title "HG002 CMRG DELs" \
+    --color-scale 0,5 \
+    --color Blues
 
 cat data/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.bed | wc -l
      218
@@ -521,7 +530,7 @@ cat data/lr_te_pop_freq_t_5.bed \
     --bins 0 0.001 .01 .05 1.0 \
     --bin_names "0%" "(0%-1%]" "(1%-5%]" "(5%-100%]" \
     --out_file img/lr_te_freq_fixed_bins_t_5.png \
-    --xlabel "% of samples with long-read depth > 5"\
+    --xlabel "% of samples with long-read depth => 5"\
     --ylabel "Number of TEs" \
     --title "TE SVs"
 
@@ -770,7 +779,7 @@ cat data/lr_1kg_pop_freq_t_5.bed \
     --ylabel "Freq."
 
 cat data/LR_1kg_queries_sampleswise_agg.staffr.bed \
-cut -f 1,2,5,7,12 \
+| cut -f 1,2,5,7,12 \
 | tail -n +2 \
 > data/lr_1kg_staffr_q.bed
 
