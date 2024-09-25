@@ -59,13 +59,11 @@ def main():
         ont = int(ont)
         vienna = int(vienna)
 
-        if hprc >= 1:
+        if hprc >= 1 and ont == 0 and vienna == 0:
             F['PacBio'] += 1
-        if ont >= 1:
+        elif (ont >= 1 or vienna >= 1) and hprc == 0:
             F['Nanopore'] += 1
-        if vienna >= 1:
-            F['Nanopore'] += 1
-        if hprc >= 1 and (ont >= 1 or vienna >= 1):
+        elif hprc >= 1 and (ont >= 1 or vienna >= 1):
             F['PacBio Nanopore'] += 1
 
     example = from_memberships(

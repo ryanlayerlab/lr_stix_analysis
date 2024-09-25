@@ -13,19 +13,19 @@
 |![](img/staffr_lr_vs_1kg_af_freq.png) r = 0.75, p=0.00e+00 | ![](img/stix_sr_vs_1kg_pop_freq.png) r = 0.90, p=0.00e+00 | ![](img/stix_sr_vs_1kg_pop_freq_diff.hist.png)|
 
 
-## Fig 4
+## Fig 5
 
 | | |
 |-|-|
 | | ![](img/lr_cosmic_freq_fixed_bins_t_5.png)
 
-## Fig 5
+## Fig 6
 
-| | | |
-|-|-|-|
-| |![Fig 5B](img/lr_te_pop_freq_total_seen_t_5.png) | |
-| ![Fig 5D](img/lr_te_tech_upset_t_5.png)| ![Fig 5E](img/lr_te_freq_fixed_bins_t_5.png)| ![Fig 5F](img/stix_lr_te_depth_v_freq.png)|
-| ![Fig 5G](img/stix_sr_te_depth_v_freq.png)| |
+| | |
+|-|-|
+| | |
+|![](img/lr_te_tech_upset_t_5.png)    | ![](img/lr_te_freq_fixed_bins_t_5.png) |
+|![](img/stix_lr_te_depth_v_freq.png) r = 0.93, p=0.00e+00 | ![](img/img/stix_sr_te_depth_v_freq.png) r = 0.73, p=0.00e+00 | 
 
 ## Figures
 
@@ -453,13 +453,15 @@ cat data/lr_cosmic_pop_freq_t_1.bed \
 python src/hex_plot.py \
     --stix data/lr_te_mean_depth.bed \
     --stix_max 1.0 \
-    --other data/lr_te_pop_freq_t_1.bed \
+    --other data/lr_te_pop_freq_t_2.bed \
     --out img/stix_lr_te_depth_v_freq.png \
+    --merged data/stix_.r_te_depth_v_freq.bed \
     --height 4 \
     --width 5 \
-    --xlabel "Num. of samples with STIX long-read depth > 0" \
+    --xlabel "Num. of samples with STIX long-read depth => 2" \
     --ylabel "Mean SV evidence depth / coverage " \
-    --title "TE SVs"
+    --title "TE SVs" \
+    --color "Greens"
 r = 0.91, p=0.00e+00
 
 python src/hex_plot.py \
@@ -482,14 +484,15 @@ r = 0.80, p=0.00e+00
 python src/hex_plot.py \
     --stix data/sr_te_mean_depth.bed \
     --stix_max 1.0 \
-    --other data/sr_te_pop_freq_t_1.bed \
+    --other data/sr_te_pop_freq_t_4.bed \
     --out img/stix_sr_te_depth_v_freq.png \
+    --merged data/stix_sr_te_depth_v_freq.bed \
     --height 4 \
     --width 5 \
-    --xlabel "Num. of samples with STIX short-read depth > 0" \
+    --xlabel "Num. of samples with STIX short-read depth => 4" \
     --ylabel "Mean SV evidence depth / coverage " \
-    --title "TE SVs"
-r = 0.12, p=8.15e-44
+    --title "TE SVs" \
+    --color "Greens"
 
 python src/hex_plot.py \
     --color-scale 0,1100 \
@@ -703,6 +706,7 @@ cat data/lr_hg002_cmrg_pop_freq_t_1.bed \
 python src/get_pop_freq_by_tech.py \
     --t 5 \
     --lr data/02.3.MosiacTEs.unique.query.final_intersected.slop100.results \
+    --samples data/ont_pb_samples.txt \
 > data/lr_te_pop_freq_by_tech_hprc_ont_vienna_t_5.bed
 
 python src/get_pop_freq.py \

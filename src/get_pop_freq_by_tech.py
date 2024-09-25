@@ -11,6 +11,7 @@ def parse_args():
                         default=1,
                         required=True)
     parser.add_argument('--adj', action='store_true', help="Adjust start end by 10bp")
+    parser.add_argument('--samples', type=str, help="File with list of samples to include")
 
     return parser.parse_args()
 
@@ -70,8 +71,17 @@ def parse_sr_file(sr_file, SR, t):
                     SR[sv].add(sample)
     return SR
 
+def get_sample_list(sample_file):
+    samples = set()
+    with open(sample_file, 'r') as f:
+        for line in f:
+            samples.add(line.rstrip())
+    return samples
+
 def main():
     args = parse_args()
+
+    samples = get_sample_list(args.samples)
 
     SV = {}
 
@@ -88,6 +98,7 @@ def main():
                  'ont' :set(),
                  'vienna' :set()}
         for sample in SV[sv]:
+            if sample not in samples: continue
             tech = sample.split('.')[-1]
             techs[tech].add(sample)
 
