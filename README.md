@@ -25,7 +25,7 @@
 |-|-|
 | | |
 |![](img/lr_te_tech_upset_t_5.png)    | ![](img/lr_te_freq_fixed_bins_t_5.png) |
-|![](img/stix_lr_te_depth_v_freq.png) r = 0.93, p=0.00e+00 | ![](img/img/stix_sr_te_depth_v_freq.png) r = 0.73, p=0.00e+00 | 
+|![](img/stix_lr_te_depth_v_freq.png) r = 0.93, p=0.00e+00 | ![](img/stix_sr_te_depth_v_freq.png) r = 0.73, p=0.00e+00 | 
 
 ## Figures
 
