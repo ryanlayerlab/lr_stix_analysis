@@ -13,6 +13,13 @@
 |![](img/staffr_lr_vs_1kg_af_freq.png) r = 0.75, p=0.00e+00 | ![](img/stix_sr_vs_1kg_pop_freq.png) r = 0.90, p=0.00e+00 | ![](img/stix_sr_vs_1kg_pop_freq_diff.hist.png)|
 
 
+## Fig 4
+
+| | |
+|-|-|
+| ![](img/stix_sr_hg002_vs_gnomad_pop_freq.png) | ![](img/stix_sr_hg002_vs_gnomad_pop_freq.png) |
+| ![](img/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.png) | ![](img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png) |
+
 ## Fig 5
 
 | | |
@@ -315,7 +322,7 @@ python src/hex_plot.py \
     --height 4 \
     --width 5 \
     --xlabel "Allele freq. in gnomAD" \
-    --ylabel "Num. of samples with STIX long-read depth > 5" \
+    --ylabel "Num. of samples with STIX long-read depth => 5" \
     --title "HG002 CMRG SVs" \
     --color-scale 0,5 \
     --color Blues
@@ -328,7 +335,7 @@ python src/hex_plot.py \
     --height 4 \
     --width 5 \
     --xlabel "Allele freq. in gnomAD" \
-    --ylabel "Num. of samples with STIX short-read depth > 5" \
+    --ylabel "Num. of samples with STIX short-read depth => 5" \
     --title "HG002 DELs" \
     --color Blues
 
