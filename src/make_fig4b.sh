@@ -7,6 +7,7 @@ cat data/lr_cosmic_pop_freq_t_5.bed \
     --xlabel "% of samples with long-read depth >= 5"\
     --ylabel "Number of COSMIC SVs" \
     --title "COSMIC SVs" \
+    --tick_label_size 11 \
     --height 4 \
     --width 5 \
     --fignum 4B
