@@ -79,7 +79,7 @@ def main():
 
     ax.tick_params(axis='both',
                    which='major',
-                   labelsize=args.axis_label_size,
+                   labelsize=args.tick_label_size,
                    width=args.tick_line_width,
                    length=args.tick_line_length)
 
