@@ -7,12 +7,11 @@
 
 ## Fig 3
 
-| | |
-|-|-|
-| | ![](img/stix_lr_vs_1kg_pop_freq.png) |
-| ![](img/stix_lr_vs_sr_pop_freq.png) | ![](img/stix_lr_hg002_vs_gnomad_pop_freq.png) |
-| | ![](https://img/stix_sr_hg002_vs_gnomad_pop_freq.png) |
-| ![](img/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.png) | ![](img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png) |
+| | | |
+|-|-|-|
+|![](img/stix_lr_vs_sr_pop_freq.png) r = 0.80, p=0.00e+00 | ![](img/stix_lr_vs_1kg_pop_freq.png) r = 0.80, p=0.00e+00 | ![](img/stix_lr_vs_1kg_pop_freq_diff.hist.png)|
+|![](img/staffr_lr_vs_1kg_af_freq.png) r = 0.75, p=0.00e+00 | ![](img/stix_sr_vs_1kg_pop_freq.png) r = 0.90, p=0.00e+00 | ![](img/stix_sr_vs_1kg_pop_freq_diff.hist.png)|
+
 
 ## Fig 4
 
@@ -52,7 +51,7 @@ python src/hex_plot.py \
     --height 4 \
     --width 5 \
     --xlabel "Num. samples called non-ref by 1KG" \
-    --ylabel "Num. of samples with STIX long-read depth > 5" \
+    --ylabel "Num. of samples with STIX long-read depth => 5" \
     --title "1KG germline SVs"
 
 cat data/stix_lr_vs_1kg_pop_freq.bed\
@@ -144,7 +143,7 @@ python src/hex_plot.py \
     --height 4 \
     --width 5 \
     --xlabel "Num. samples called non-ref by 1KG" \
-    --ylabel "Num. of samples with STIX short-read depth > 5" \
+    --ylabel "Num. of samples with STIX short-read depth => 5" \
     --title "1KG germline SVs"
 
 cat data/stix_sr_vs_1kg_pop_freq.bed \
@@ -215,8 +214,8 @@ python src/hex_plot.py \
     --merged data/stix_lr_vs_sr_pop_freq.bed \
     --height 4 \
     --width 5 \
-    --xlabel "Num. of samples with STIX short-read depth > 5" \
-    --ylabel "Num. of samples with STIX long-read depth > 5" \
+    --xlabel "Num. of samples with STIX short-read depth => 5" \
+    --ylabel "Num. of samples with STIX long-read depth => 5" \
     --title "1KG germline SVs"
 
 python src/hex_plot.py \
@@ -779,8 +778,9 @@ cat data/lr_1kg_pop_freq_t_5.bed \
     --ylabel "Freq."
 
 cat data/LR_1kg_queries_sampleswise_agg.staffr.bed \
-| cut -f 1,2,5,7,12 \
 | tail -n +2 \
+| awk -F "\t" '$13<=0.05' \
+| cut -f 1,2,5,7,12 \
 > data/lr_1kg_staffr_q.bed
 
 cat data/lr_1kg_staffr_q.bed \
@@ -792,8 +792,8 @@ cat data/1kg_af.bed \
 > data/1kg_af.af_gt_0.1.bed
 
 python src/hex_plot.py \
-    --stix data/lr_1kg_staffr_q.q_gt_0.1.bed \
-    --other data/1kg_af.af_gt_0.1.bed \
+    --stix data/lr_1kg_staffr_q.bed \
+    --other data/1kg_af.bed \
     --out img/staffr_lr_vs_1kg_af_freq.png \
     --merged data/staffr_lr_vs_1kg_af_freq.bed \
     --height 4 \
