@@ -264,55 +264,43 @@ python src/hex_plot.py \
     --width 5 \
     --xlabel "Allele freq. in gnomAD" \
     --ylabel "Num. of samples with STIX long-read depth => 5" \
-    --title "HG002 SVs"
+    --title "HG002 SVs" \
+    --color Blues
 
 cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | wc -l
-   10647
-
-cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | awk '$5>0' | wc -l
-   10402
-
-calc 10402/10647
-    0.976988823142669
-
-cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | cut -f 4 | sort | uniq -c
-28307 DEL
-38515 INS
-
-cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | awk '$5>0' | cut -f 4 | sort | uniq -c
-16311 DEL
-19659 INS
-calc 16311/28307
-    0.576217896633342
-calc 19659/38515
-    0.510424509931196
-
-cat data/stix_sr_hg002_vs_gnomad_pop_freq.bed | wc -l
-35683
-cat data/stix_sr_hg002_vs_gnomad_pop_freq.bed | awk '$5>0' | cut -f 4 | sort | uniq -c
-31506 DEL
-calc 31506/35683 \
-    0.882941456716083
-
-cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | awk '$6>0' | cut -f 4 | sort | uniq -c
-13428 DEL
-3952 INS
-calc 13428/28307
-    0.474370297099657
-calc 3952/38515
-    0.10260937297157
-
+   26122
 cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | awk '$6>0' | wc -l
-   17380
+    8744
+cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | awk '$5>0' | wc -l
+   25064
 
-calc 17380/66822
-    0.260093981024214
+calc 8744/26122
+    0.334737003292244
+calc 25064/26122
+    0.95949774136743
 
-cat data/stix_sr_hg002_vs_gnomad_pop_freq.bed | awk '$5>0' | wc -l
-   31506
+cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | grep INS | wc -l
+   15917
+cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | grep INS | awk '$6>0' | wc -l
+    2760
+cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | grep INS | awk '$5>0' | wc -l
+   15082
 
-calc 31506/66822
-    0.471491424979797
+calc 2760/15917
+    0.173399509957907
+calc 15082/15917
+
+cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | grep DEL | wc -l
+   10205
+cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | grep DEL | awk '$6>0' | wc -l
+    5984    
+cat data/stix_lr_hg002_vs_gnomad_pop_freq.bed | grep DEL | awk '$5>0' | wc -l
+   9982
+
+calc 5984/10205
+    0.586379225869672
+calc 9982/10205
+    0.978147966682999
 
 python src/hex_plot.py \
     --stix data/lr_hg002_cmrg_pop_freq_t_5.bed \
@@ -326,6 +314,13 @@ python src/hex_plot.py \
     --title "HG002 CMRG SVs" \
     --color-scale 0,5 \
     --color Blues
+
+cat data/sr_hg002_pop_freq_t_5.bed | wc -l
+   10205
+cat data/sr_hg002_pop_freq_t_5.bed  | awk '$5>0' | wc -l
+    9896
+calc 9896/10205
+    0.969720725134738
 
 python src/hex_plot.py \
     --stix data/sr_hg002_pop_freq_t_5.bed \
@@ -351,19 +346,6 @@ python src/hex_plot.py \
     --title "HG002 CMRG DELs" \
     --color-scale 0,5 \
     --color Blues
-
-cat data/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.bed | wc -l
-     218
-cat data/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.bed | awk '$6>0' | wc -l
-      69
-cat data/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.bed | awk '$5>0' | wc -l
-     218
-cat data/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.bed | awk '$5>0' | wc -l
-      97
-calc 69/218
-0.31651376146789
-calc 91/218
-0.41743119266055
 
 ```
 
