@@ -17,7 +17,7 @@
 
 | | |
 |-|-|
-| ![](img/stix_sr_hg002_vs_gnomad_pop_freq.png) | ![](img/stix_sr_hg002_vs_gnomad_pop_freq.png) |
+| ![](img/stix_lr_hg002_vs_gnomad_pop_freq.png) | ![](img/stix_sr_hg002_vs_gnomad_pop_freq.png) |
 | ![](img/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.png) | ![](img/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.png) |
 
 ## Fig 5
@@ -256,8 +256,8 @@ cat data/lr_hg002_pop_freq_t_5.bed \
 > data/lr_hg002_pop_freq_t_5.len_gte_50.bed
 
 python src/hex_plot.py \
-    --stix data/lr_hg002_pop_freq_t_5.len_gte_50.bed \
-    --other data/HG002.gnomadAF.bed \
+    --stix data/lr_hg002_pop_freq_t_5.bed \
+    --other data/HG002.gnomadAF.uniq.bed \
     --out img/stix_lr_hg002_vs_gnomad_pop_freq.png \
     --merged data/stix_lr_hg002_vs_gnomad_pop_freq.bed \
     --height 4 \
@@ -647,6 +647,18 @@ python src/get_pop_freq.py \
     --lr data/GRCh38_HG002-T2TQ100-V1.0_stvar.addID.svafotate.STIXanno_minreads5.slop100.results \
 > data/lr_hg002_pop_freq_t_5.bed
 
+
+python src/get_pop_freq.py \
+    --t 5 \
+    --lr data/HG002.SV.benchmark.gt50.noGT0.slop100.results \
+> data/lr_hg002_pop_freq_t_5.bed
+
+cat data/HG002.SV.benchmark.gt50.noGT0.slop100.results \
+| python src/get_gnomad_af.py  \
+> data/HG002.gnomadAF.bed
+
+
+
 cat data/lr_hg002_pop_freq_t_5.bed \
 | cut -f 5 \
 | python src/hist.py \
@@ -694,6 +706,49 @@ cat data/lr_hg002_cmrg_pop_freq_t_1.bed \
     --log \
     --xlabel "Pop Freq."\
     --ylabel "Freq."
+
+
+bedtools groupby \
+    -i <(cat data/HG002.gnomadAF.bed| sort) \
+    -g 1,2,3,4 \
+    -c 5 \
+    -o max \
+| wc -l
+    26122
+
+bedtools groupby \
+    -i <(cat data/HG002.gnomadAF.bed| sort) \
+    -g 1,2,3,4 \
+    -c 5 \
+    -o max \
+| awk '$5>0' \
+| wc -l
+    8744
+
+bedtools groupby \
+    -i <(cat data/HG002.gnomadAF.bed| sort) \
+    -g 1,2,3,4 \
+    -c 5 \
+    -o max \
+> data/HG002.gnomadAF.uniq.bed
+
+
+calc 8744/26122
+    0.334737003292244
+
+cat data/lr_hg002_pop_freq_t_5.bed | wc -l
+    26122
+
+cat data/lr_hg002_pop_freq_t_5.bed | awk '$5>0' | wc -l
+    25064
+
+calc 25064/26122
+    0.95949774136743
+
+
+
+
+
 ```
 
 </details>
