@@ -523,7 +523,11 @@ cat data/lr_te_pop_freq_t_5.bed \
     --out_file img/lr_te_freq_fixed_bins_t_5.png \
     --xlabel "% of samples with long-read depth => 5"\
     --ylabel "Number of TEs" \
-    --title "TE SVs"
+    --title "TE SVs" \
+    --width 5 \
+    --height 4
+
+
 
 cat data/lr_te_pop_freq_t_1.bed \
 | awk '{print $5/1109;}' \
@@ -758,6 +762,17 @@ python src/get_pop_freq.py \
     --lr data/02.3.MosiacTEs.unique.query.final_intersected.slop100.results \
 > data/lr_te_pop_freq_t_5.bed
 
+python src/get_pop_freq.py \
+    --t 2 \
+    --lr data/02.3.MosiacTEs.unique.query.final_intersected.slop100.results \
+> data/lr_te_pop_freq_t_2.bed
+
+python src/get_pop_freq.py \
+    --t 2 \
+    --lr data/02.3.MosiacTEs.unique.query.final_intersected.slop100.results \
+> data/lr_te_pop_freq_t_5.bed
+
+
 cat data/lr_te_pop_freq_t_5.bed \
 | cut -f 5 \
 | python src/hist.py \
@@ -785,7 +800,7 @@ python src/get_depth_stats.py \
     --coverage data/lr_sample_depth.txt \
 > data/lr_te_mean_depth.bed
 
-cat data/lr_te_mean_depth.bed \
+cat data/lr_te_mean_depth.bed \s
 | cut -f 5 \
 | python src/hist.py \
     --out_file img/lr_te_mean_depth.hist.png \

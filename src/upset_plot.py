@@ -76,6 +76,7 @@ def main():
     plot(example)
     fig.tight_layout()
     plt.savefig(args.out_file)
+    fig.savefig(args.out_file+".svg", format='svg',transparent=True)
 
 if __name__ == '__main__':
     main()

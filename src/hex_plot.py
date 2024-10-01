@@ -186,6 +186,7 @@ def plot_data(
 
     fig.tight_layout()
     fig.savefig(output, dpi=600)
+    fig.savefig(output+".svg", format='svg',transparent=True)
 
 
 if __name__ == "__main__":

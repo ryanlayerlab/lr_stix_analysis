@@ -131,6 +131,7 @@ def main():
 
     fig.tight_layout()
     fig.savefig(args.out_file)
+    fig.savefig(args.out_file+".svg", format='svg',transparent=True)
 
 if __name__ == '__main__':
     main()
