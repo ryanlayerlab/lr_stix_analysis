@@ -262,7 +262,7 @@ python src/hex_plot.py \
     --merged data/stix_lr_hg002_vs_gnomad_pop_freq.bed \
     --height 4 \
     --width 5 \
-    --xlabel "Allele freq. in gnomAD" \
+    --xlabel "SV AF by SVAFotate" \
     --ylabel "Num. of samples with STIX long-read depth => 5" \
     --title "HG002 SVs" \
     --color Blues
@@ -309,7 +309,7 @@ python src/hex_plot.py \
     --merged data/stix_lr_hg002_cmrg_vs_gnomad_pop_freq.bed \
     --height 4 \
     --width 5 \
-    --xlabel "Allele freq. in gnomAD" \
+    --xlabel "SV AF by SVAFotate" \
     --ylabel "Num. of samples with STIX long-read depth => 5" \
     --title "HG002 CMRG SVs" \
     --color-scale 0,5 \
@@ -329,7 +329,7 @@ python src/hex_plot.py \
     --merged data/stix_sr_hg002_vs_gnomad_pop_freq.bed \
     --height 4 \
     --width 5 \
-    --xlabel "Allele freq. in gnomAD" \
+    --xlabel "SV AF by SVAFotate" \
     --ylabel "Num. of samples with STIX short-read depth => 5" \
     --title "HG002 DELs" \
     --color Blues
@@ -341,7 +341,7 @@ python src/hex_plot.py \
     --merged data/stix_sr_hg002_cmrg_vs_gnomad_pop_freq.bed \
     --height 4 \
     --width 5 \
-    --xlabel "Allele freq. in gnomAD" \
+    --xlabel "SV AF by SVAFotate" \
     --ylabel "Num. of samples with STIX short-read depth > 5" \
     --title "HG002 CMRG DELs" \
     --color-scale 0,5 \
@@ -351,7 +351,7 @@ python src/hex_plot.py \
 
 </details>
 
-## STIX COSCMIC freq
+## STIX COSMIC freq
 
 ### STIX Long-read COSCMIC Pop %
 | | t > 5 | t > 1 |
